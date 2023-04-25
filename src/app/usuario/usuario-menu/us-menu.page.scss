@@ -1,0 +1,22 @@
+.button_inner {
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: inherit;
+    color: #1b1b1b;
+}
+
+  .my-custom-menu {
+    --width: 500px;
+  }
+
+  .menu{
+    font-family: auto;
+    
+    text-anchor: unset;
+    /* background-color: powderblue; */
+    color: #000000;
+  }
+
+  ion-label{
+    font: menu;
+  }

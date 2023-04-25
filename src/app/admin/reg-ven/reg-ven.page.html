@@ -1,0 +1,57 @@
+<ion-app>
+  <ion-header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <div class="Rectangle-239">
+      <div class="logoInicio">
+        <ion-title class="title">Bienvenido {{nombre}}</ion-title>
+      </div>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <div class="BG">
+      <ion-card-subtitle class="title2">{{nombre}}, aqui debes proporcionar los datos necesarios: </ion-card-subtitle>
+
+      <ion-segment style="margin-top: 1em;" value="Todos">
+      </ion-segment>
+    </div>
+    <!-- Empieza los nuevos valores para no perderse -->
+    <div style="margin-top: 1em">
+      <form (ngSubmit)="guadarValoresAdministrador()" [formGroup]="comen">
+        <ion-item>
+          <ion-label>Plato</ion-label>
+          <ion-select [(ngModel)]="selectProducto" [ngModelOptions]="{standalone: true}" interface="action-sheet" placeholder="Selecciona uno">
+            <ion-select-option *ngFor="let item of productos"
+              [value]="item">{{item.nombreProducto}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <!-- <ion-note slot="error"
+          *ngIf="(reporte.dirty || reporte.touched) && reporte.errors">Numero</ion-note> -->
+
+        <ion-textarea #textComment placeholder="Numero Platos" type="text"
+          formControlName="reporte" required [value]="reporte1" class="cajaTexto" minlength="1"
+          spellcheck="true" (ionInput)="onKey($event)">
+        </ion-textarea>
+
+        <ion-button color="loginbutton" class="ButtonLogin" (click)="showLoading()" type="submit"
+          [disabled]="!comen.valid">
+          <span style="
+                color: #f6f6f6;
+                font-size: 20px;
+                font-family: Gidole-Regular;
+              ">Agregar Valores</span>
+        </ion-button>
+      </form>
+    </div>
+
+  </ion-content>
+  <ion-footer collapse="fade">
+    <ion-toolbar>
+      <div class="footerDerechosAutor">
+        <ion-label class="derechosAutor">
+          &#169; 2022 Todos los derechos reservados | Developed by HG & MD
+        </ion-label>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>

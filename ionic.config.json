@@ -1,0 +1,7 @@
+{
+  "name": "tesis-frontend-aplicacion-hibrida-para-resumir-y-representar-comentarios",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

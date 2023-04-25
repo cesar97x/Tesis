@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "155971214151",
+    "firebase_url": "https://tesis-f155e-default-rtdb.firebaseio.com",
+    "project_id": "tesis-f155e",
+    "storage_bucket": "tesis-f155e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155971214151:android:62dbfd1c5088002b22ca62",
+        "android_client_info": {
+          "package_name": "com.ups.cocoments"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155971214151-58jinri3itmuf09mor4iq5jjiunbgcg8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBREOgXdY7ppCN5ujNPwa1dJzhmxu4tCW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155971214151-58jinri3itmuf09mor4iq5jjiunbgcg8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

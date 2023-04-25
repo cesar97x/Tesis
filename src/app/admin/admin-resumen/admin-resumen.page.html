@@ -1,0 +1,242 @@
+<ion-app>
+  <ion-header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <div class="Rectangle-239">
+      <div class="logoInicio">
+        <ion-title class="title">Bienvenido {{nombre}}</ion-title>
+      </div>
+    </div>
+  </ion-header>
+
+
+
+  <ion-content>
+
+    
+    <div class="BG">
+      <ion-card-subtitle class="title2">{{nombre}}, puedes filtrar tus comentarios por: </ion-card-subtitle>
+
+      <ion-segment style="margin-top: 1em;" value="Todos" (ionChange)="tipoBusqueda($event)">
+        <ion-segment-button value="Todos">
+          <ion-label>Todos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Fechas">
+          <ion-label>Fechas</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Sentimiento">
+          <ion-label>Sentimiento</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Ambas">
+          <ion-label>Ambos</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div class="filtro"  *ngIf="tipoBusquedaFiltro!=='Todos'"  >
+      <ion-card class="filtroContent">
+        <div *ngIf="tipoBusquedaFiltro==='Sentimiento'"  class="BG" >
+          <ion-grid>
+            <ion-radio-group (ionChange)="cargarResumenSentimientos($event)">
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Positivos</ion-label>
+                    <ion-radio slot="start" color="primary" value="positive"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Normales</ion-label>
+                    <ion-radio slot="start" color="medium" value="neutral"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Negativos</ion-label>
+                    <ion-radio slot="start" color="warning" value="negative"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-radio-group>
+          </ion-grid>
+        </div>
+    
+        <div *ngIf="tipoBusquedaFiltro==='Fechas'" >
+          <form (ngSubmit)="cargarResumenFechas()" [formGroup]="datos">
+    
+            <ion-item class="BG" (click)="showPickerInicio = !showPickerInicio">
+              <ion-label>Fecha Inicio:</ion-label>
+              <ion-text slot="end"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date" size="cover"
+              (ionChange)="cambiarFechaInicio(datatimeInicio.value)" [max]="dataValueTodayMax"
+              (ionCancel)="showPickerInicio=false" style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+    
+            <ion-item class="BG" (click)="showPickerFin = !showPickerFin">
+              <ion-label>Fecha Fin:</ion-label>
+              <ion-text slot="end"> {{formattedStringFin| date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeFin [value]="dataValue" *ngIf="showPickerFin" presentation="date" size="cover"
+              (ionChange)="cambiarFechaFin(datatimeFin.value)" [max]="dataValueTodayMax" (ionCancel)="showPickerFin=false"
+              style="background-color: white" formControlName="fechaFinForm">
+            </ion-datetime>
+    
+            <ion-button color="loginbutton" class="BG" type="submit" expand="block" [disabled]="!datos.valid"><span
+                style="color: #f6f6f6; font-size: 20px; font-family: Inter-Bold">Ver Comentarios</span>
+            </ion-button>
+          </form>
+        </div>
+    
+        <!------------------------------------------------------------------------->
+        <div *ngIf="tipoBusquedaFiltro==='Ambas'"  class="BG" >
+    
+          
+          <form (ngSubmit)="cargarResumenFechasSentimiento()" [formGroup]="datos">
+            
+    
+            <ion-item class="BG" (click)="showPickerInicio = !showPickerInicio">
+              <ion-label>Fecha Inicio:</ion-label>
+              <ion-text slot="end"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date" size="cover"
+              (ionChange)="cambiarFechaInicio(datatimeInicio.value)" [max]="dataValueTodayMax"
+              (ionCancel)="showPickerInicio=false" style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+    
+            <ion-item class="BG" (click)="showPickerFin = !showPickerFin">
+              <ion-label>Fecha Fin:</ion-label>
+              <ion-text slot="end"> {{formattedStringFin| date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeFin [value]="dataValue" *ngIf="showPickerFin" presentation="date" size="cover"
+              (ionChange)="cambiarFechaFin(datatimeFin.value)" [max]="dataValueTodayMax" (ionCancel)="showPickerFin=false"
+              style="background-color: white" formControlName="fechaFinForm">
+            </ion-datetime>
+    
+            <ion-grid>
+              <ion-list-header>Sentimiento</ion-list-header>
+              <ion-radio-group (ionChange)="actualizarValoresBusquedas($event)">
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Positivos</ion-label>
+                      <ion-radio slot="start" color="primary" value="positive"></ion-radio>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Normales</ion-label>
+                      <ion-radio slot="start" color="medium" value="neutral"></ion-radio>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Negativos</ion-label>
+                      <ion-radio slot="start" color="warning" value="negative"></ion-radio>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-radio-group>
+            </ion-grid>
+    
+            <ion-button color="loginbutton" class="BG" type="submit" expand="block" [disabled]="!datos.valid"><span
+                style="color: #f6f6f6; font-size: 20px; font-family: Inter-Bold">Ver Comentarios</span>
+            </ion-button>
+          </form>
+        </div>
+      </ion-card>
+    </div>
+    
+    
+    <!------------------------------------------------------------------------->
+
+
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let note of notes">
+            <div>
+              <ion-list>
+                <ion-card style="height: 200px ;max-height: 300px; min-width: 300px;" (click)="openModalComentario(note, true)">
+                  <ion-card-header>
+                    <ion-card-title style="text-transform: capitalize">
+                      {{note.resumen_comentario}}</ion-card-title
+                    >
+                    <ion-card-subtitle *ngIf="tipoFecha!==true && tipoBusquedaFiltro==='Todos'" style="margin-top: 2em"><ion-icon name="calendar"></ion-icon> {{note.fecha_comentario.toDate() | date:'short':'ISO'}}</ion-card-subtitle >
+                    <ion-card-subtitle *ngIf="tipoFecha===true"  style="margin-top: 2em"><ion-icon name="calendar"></ion-icon> {{note.fecha_comentario | date:'short':'ISO'}}</ion-card-subtitle >
+                    <ion-card-subtitle style="margin-top: 1em;color: #91d08f;" *ngIf="note.tipo_comentario==='positive'">Positivos</ion-card-subtitle>
+                    <ion-card-subtitle style="margin-top: 1em;color: #E0A246;" *ngIf="note.tipo_comentario==='neutral'">Neutral</ion-card-subtitle>
+                    <ion-card-subtitle style="margin-top: 1em;color: #DE836A;" *ngIf="note.tipo_comentario==='negative'">Negativos</ion-card-subtitle>
+                  </ion-card-header>
+        
+                  <ion-card-content> {{note.comentario_completo}} </ion-card-content>
+
+                </ion-card>
+
+                <ion-modal [isOpen]="isOpen">
+                  <ng-template>
+                    <ion-header>
+                      <ion-toolbar>
+                        <ion-title>Comentario</ion-title>
+                        <ion-buttons slot="end">
+                          <ion-button (click)="setOpen(false)">Cerrar</ion-button>
+                        </ion-buttons>
+                      </ion-toolbar>
+                    </ion-header>
+                    <ion-content class="ion-padding">
+                      <p>
+                        {{contenidoComentario}}
+                      </p>
+                    </ion-content>
+                  </ng-template>
+                </ion-modal>
+        
+              </ion-list>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-content>
+
+
+  <ion-footer collapse="fade">
+    <ion-toolbar>
+      <div class="footerDerechosAutor">
+        <ion-label class="derechosAutor">
+          &#169; 2022 Todos los derechos reservados | Developed by HG & MD
+        </ion-label>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>
+
+<!--
+
+
+
+<ion-card>
+  <ion-item href="#" class="ion-activated">
+    <ion-icon name="wifi" slot="start"></ion-icon>
+    <ion-label>Card Link Item 1 activated</ion-label>
+  </ion-item>
+
+  <ion-item href="#">
+    <ion-icon name="wine" slot="start"></ion-icon>
+    <ion-label>Card Link Item 2</ion-label>
+  </ion-item>
+
+  <ion-item class="ion-activated">
+    <ion-icon name="warning" slot="start"></ion-icon>
+    <ion-label>Card Button Item 1 activated</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="walk" slot="start"></ion-icon>
+    <ion-label>Card Button Item 2</ion-label>
+  </ion-item>
+</ion-card>
+-->

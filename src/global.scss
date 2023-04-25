@@ -1,0 +1,119 @@
+
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+
+:root {
+	
+	--ion-color-loginbutton: #000000;
+	--ion-color-loginbutton-rgb: 104,191,101;
+	--ion-color-loginbutton-contrast: #000000;
+	--ion-color-loginbutton-contrast-rgb: 0,0,0;
+	--ion-color-loginbutton-shade: #000000;
+	--ion-color-loginbutton-tint: #000000;
+}
+
+.ion-color-loginbutton {
+	--ion-color-base: var(--ion-color-loginbutton);
+	--ion-color-base-rgb: var(--ion-color-loginbutton-rgb);
+	--ion-color-contrast: var(--ion-color-loginbutton-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-loginbutton-contrast-rgb);
+	--ion-color-shade: var(--ion-color-loginbutton-shade);
+	--ion-color-tint: var(--ion-color-loginbutton-tint);
+}
+
+:root {
+	--ion-color-botonClienteInicio: #f26113;
+	--ion-color-botonClienteInicio-rgb: 104,191,101;
+	--ion-color-botonClienteInicio-contrast: #000000;
+	--ion-color-botonClienteInicio-contrast-rgb: 0,0,0;
+	--ion-color-botonClienteInicio-shade: #ff8000;
+	--ion-color-botonClienteInicio-tint: #ff7c02;
+}
+
+.ion-color-botonClienteInicio {
+	--ion-color-base: var(--ion-color-botonClienteInicio);
+	--ion-color-base-rgb: var(--ion-color-botonClienteInicio-rgb);
+	--ion-color-contrast: var(--ion-color-botonClienteInicio-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-botonClienteInicio-contrast-rgb);
+	--ion-color-shade: var(--ion-color-botonClienteInicio-shade);
+	--ion-color-tint: var(--ion-color-botonClienteInicio-tint);
+}
+
+
+
+:root {
+	--ion-color-veropciones: #56756d;
+	--ion-color-veropciones-rgb: 86,117,109;
+	--ion-color-veropciones-contrast: #FBFBFF;
+	--ion-color-veropciones-contrast-rgb: 86,117,109,46;
+	--ion-color-veropciones-shade: #56756d;
+	--ion-color-veropciones-tint: #56756d;
+}
+
+.ion-color-veropciones {
+	--ion-color-base: var(--ion-color-veropciones);
+	--ion-color-base-rgb: var(--ion-color-veropciones-rgb);
+	--ion-color-contrast: var(--ion-color-veropciones-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-veropciones-contrast-rgb);
+	--ion-color-shade: var(--ion-color-veropciones-shade);
+	--ion-color-tint: var(--ion-color-veropciones-tint);
+}
+
+
+@font-face {   
+	font-family: 'Inter-Thin';    //This is what we are going to call
+	src: url('./assets/fonts/static/Inter-Thin.ttf');
+}
+
+@font-face {   
+	font-family: 'Inter-Regular';    //This is what we are going to call
+	src: url('./assets/fonts/static/Inter-Regular.ttf');
+}
+
+@font-face {   
+	font-family: 'Inter-Bold';    //This is what we are going to call
+	src: url('./assets/fonts/static/Inter-Bold.ttf');
+}
+
+@font-face {   
+	font-family: 'Julius-Sans-One';    //This is what we are going to call
+	src: url('./assets/fonts/fontsK/JuliusSansOne-Regular.ttf');
+}
+
+@font-face {   
+	font-family: 'OpenSans-Italic-VariableFont_wdth,wght';    //This is what we are going to call
+	src: url('./assets/fonts/fontsK/OpenSans-Italic-VariableFont_wdth,wght.ttf');
+
+}
+
+
+@font-face {   
+	font-family: 'Gidole-Regular';    //This is what we are going to call
+	src: url('./assets/fonts/fontsK/Gidole-Regular.otf');
+
+}

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+
+
+    <string name="app_name">La Picanteria</string>
+    <string name="title_activity_main">La Picanteria</string>
+
+    <string name="package_name">com.ups.cocoments</string>
+    <string name="custom_url_scheme">com.ups.cocoments</string>
+    <string name="server_client_id">155971214151-58jinri3itmuf09mor4iq5jjiunbgcg8.apps.googleusercontent.com</string>
+</resources>

@@ -1,0 +1,64 @@
+<ion-app>
+  
+
+  <ion-split-pane when="s" contentId="main">
+    
+      <ion-menu side="start" contentId="main">
+        <ion-header>
+          <ion-toolbar translucent style="text-align:center ;">
+            <ion-icon style="zoom: 7 ;" src="../../../assets/formasIcon/picanteria.svg"></ion-icon> 
+          
+
+          </ion-toolbar>
+        </ion-header>
+  
+        <ion-content>
+          <ion-list>
+            <ion-item href="/usuario-menu/usuario-comentario">
+              <ion-tab-button class="button_inner">
+                <ion-icon name="chatbubble-ellipses"></ion-icon>     
+                <ion-label>Nuevo Comentario</ion-label>
+              </ion-tab-button>
+            </ion-item>
+  
+            <ion-item href="/usuario-menu/usuario-lista-comentarios">
+              <ion-tab-button class="button_inner" >
+                <ion-icon name="list-circle"></ion-icon>
+                <ion-label> Lista de comentarios</ion-label>
+              </ion-tab-button>
+            </ion-item>
+            
+            <ion-item href="/usuario-menu/usuario-perfil">
+              <ion-tab-button class="button_inner" >
+                <ion-icon name="person-circle"></ion-icon>      
+                <ion-label >Perfil</ion-label>
+              </ion-tab-button>
+          
+            </ion-item>
+           
+          </ion-list>
+        </ion-content>
+      </ion-menu>
+  
+      
+   
+    <ion-router-outlet id="main"></ion-router-outlet>
+  </ion-split-pane>
+
+  </ion-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,88 @@
+<ion-app>
+
+  <ion-menu side="start" contentId="main">
+    <ion-header>
+      <ion-toolbar translucent style="text-align: center">
+        <ion-icon style="zoom: 7" src="../../../assets/formasIcon/picanteria.svg"></ion-icon>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-tab-button class="button_inner" (click)="salir()">
+            <ion-icon name="exit-outline"></ion-icon>
+            <ion-label>Salir</ion-label>
+          </ion-tab-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+
+  <ion-header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <div class="Rectangle-239">
+      <div class="logoInicio">
+        <ion-title class="title">Bienvenido {{nombre}}</ion-title>
+      </div>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <div class="BG">
+      <ion-card-subtitle class="title2">{{nombre}}, aqui puedes obtener tu reporte: </ion-card-subtitle>
+
+      <ion-segment style="margin-top: 1em;" value="Todos" (ionChange)="tipoBusqueda($event)">
+        <ion-segment-button value="predictivo">
+          <ion-label>Metodo Predictivo</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div class="filtro" *ngIf="tipoBusquedaFiltro!=='Todos'">
+      <ion-card class="filtroContent">
+        <div *ngIf="tipoBusquedaFiltro==='predictivo'" class="BG">
+          <form (ngSubmit)="cargarMetodoPredictivo()" [formGroup]="datos">
+            <h1>Indique la fecha y el evento del dia que desee predecir el numero de posibles clientes satisfechos que obtendra
+            </h1>
+            <ion-item class="BG" (click)="showPickerInicio = !showPickerInicio">
+              <ion-label>Seleccionar Fecha:</ion-label>
+              <ion-text slot="end"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date" size="cover"
+              (ionChange)="cambiarFechaInicio(datatimeInicio.value)" (ionCancel)="showPickerInicio=false"
+              style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+            <ion-item style="margin-top: 1em">
+              <ion-select interface="action-sheet" placeholder="Evento" (ionChange)="actualizarValoresEvento($event)">
+                <ion-select-option value="1">Partido De Futbol</ion-select-option>
+                <ion-select-option value="2">Concierto</ion-select-option>
+                <ion-select-option value="3">Desfile</ion-select-option>
+                <ion-select-option value="4">Cumpleaños</ion-select-option>
+                <ion-select-option value="5">Ferias Comerciales</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-button color="loginbutton" class="BG" type="submit" expand="block" [disabled]="!datos.valid"><span
+                style="color: #f6f6f6; font-size: 20px; font-family: Inter-Bold">Analizar</span>
+            </ion-button>
+            
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Platos</th>
+                  <th>Cantidad Clientes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tot of totales; index as i">
+                  <td> {{platos[i]}}</td>
+                  <td> {{tot}} </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </ion-card>
+    </div>
+  </ion-content>
+</ion-app>

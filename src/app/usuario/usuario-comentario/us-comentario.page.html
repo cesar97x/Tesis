@@ -1,0 +1,188 @@
+<ion-app>
+  <ion-header class="ion-no-border" collapse="fade">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-slides pager="true" [options]="slideOpts" style="height: 100%" pager="false">
+      <ion-slide class="gridInicio">
+        <div style="margin-top: -6em">
+          <div>
+            <ion-icon class="logo" src="../../assets/formasIcon/picanteria.svg"></ion-icon>
+          </div>
+          <div>
+            <h1 class="titulo">La Picanteria</h1>
+            <h3>
+              Bienvenido querido cliente<br />
+              Tú opinión es muy importante para nosotros. Por favor desliza la
+              pantalla y encuentra muchas sorpresas
+            </h3>
+          </div>
+          <div>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-slide>
+
+      <ion-slide style="width: 100%; height: 100%">
+        <div class="section">
+          <h1>Mientras más comentes, más premios tienes</h1>
+          <p>
+            Con mínimo 10 comentarios<br />
+            conviértete en un Cliente PLATA <br />
+            Premio: Obtiene una bebida gratis
+            <ion-icon style="zoom: 2" src="../../../assets/icon/plato.svg"></ion-icon>
+          </p>
+          <p>
+            Con mínimo 50 comentarios <br />
+            conviértete en un Cliente ORO <br />
+            Premio: Cena para dos
+            <ion-icon style="zoom: 2" src="../../../assets/icon/barra-de-oro.svg"></ion-icon>
+          </p>
+          <p>
+            Con minimo 100 comentarios <br />
+            conviértete en un Cliente DIAMANTE<br />
+            Premio: Descuento del 10%
+            <ion-icon style="zoom: 2" src="../../../assets/icon/diamante.svg"></ion-icon>
+          </p>
+        </div>
+      </ion-slide>
+
+      <ion-slide style="height: 100%">
+        <div style="width: 100%" class="gridSlide3">
+          <div style="max-width: 70%; height: 100%">
+            <div class="gridEtiquetasComentario">
+              <!--Colocar la imagen del restaurante dueno de la aplicacion-->
+              <div style="min-width: 48%">
+                <h1>Eres importante para nosotros.</h1>
+
+                <h3 class="contexto">
+                  Por favor ayúdanos a mejorar nuestro restaurante. <br>
+                  Para hacerlo solo tienes que
+                  <br> opinar acerca de nuestros servicios <br />
+                </h3>
+              </div>
+
+              <div style="min-width: 48%; margin-top: 1em">
+                <ion-item style="margin-top: 1em">
+                  <ion-select interface="action-sheet" (ionChange)="seleccionCategoria($event)" placeholder="Categoria"
+                    [value]="categoriaComentario">
+                    <ion-select-option value="Comida">Comida</ion-select-option>
+                    <ion-select-option value="costo">Costo</ion-select-option>
+                    <ion-select-option value="Atmosfera">Atmosfera</ion-select-option>
+                    <ion-select-option value="Ubicacion">Ubicación</ion-select-option>
+                    <ion-select-option value="Decoracion">Decoración</ion-select-option>
+                    <ion-select-option value="Limpieza">Limpieza</ion-select-option>
+                    <ion-select-option value="Atencion al Cliente">Atención al Cliente</ion-select-option>
+                    <ion-select-option value="General">General</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <div *ngIf="desplegarComida===true" style="margin-top: 1em">
+                  <ion-slides [options]="slideOpts2" style="width: 100%">
+                    <ion-slide *ngFor="let item of productos">
+                      <form (ngSubmit)="guadarComentarioComidaPlato(item)" [formGroup]="comen">
+                        <div>
+                          <ion-item>
+                            <ion-icon src="{{item.imagen}}" style="zoom: 3"></ion-icon>
+                            <span style="text-transform: lowercase">{{item.nombreProducto}}</span>
+                          </ion-item>
+                          <div>
+                            <ion-icon name="arrow-forward-outline" style="zoom: 1;"></ion-icon>
+                          </div>
+
+                          <ion-note slot="error"
+                            *ngIf="(comentario.dirty || comentario.touched) && comentario.errors">{{contadorCaracteres}}
+                            de 100 minimo</ion-note>
+                          <ion-textarea #textComment placeholder="Añade un comentario" type="text"
+                            formControlName="comentario" required [value]="comentario1" class="cajaTexto"
+                            minlength="100" spellcheck="true" (ionInput)="onKey($event)">
+                          </ion-textarea>
+                          <ion-button color="loginbutton" class="ButtonLogin" (click)="showLoading()" type="submit"
+                            [disabled]="!comen.valid">
+                            <span style="
+                                  color: #f6f6f6;
+                                  font-size: 20px;
+                                  font-family: Gidole-Regular;
+                                ">Agregar comentario</span>
+                          </ion-button>
+                        </div>
+                      </form>
+                    </ion-slide>
+                  </ion-slides>
+                </div>
+                <div *ngIf="desplegarComida!==true" style="margin-top: 1em">
+                  <form (ngSubmit)="guadarComentario()" [formGroup]="comen">
+
+
+                    <ion-note slot="error"
+                      *ngIf="(comentario.dirty || comentario.touched) && comentario.errors">{{contadorCaracteres}} de
+                      100 minimo</ion-note>
+
+                    <ion-textarea #textComment placeholder="Añade un comentario" type="text"
+                      formControlName="comentario" required [value]="comentario1" class="cajaTexto" minlength="100"
+                      spellcheck="true" (ionInput)="onKey($event)">
+                    </ion-textarea>
+
+                    <ion-button color="loginbutton" class="ButtonLogin" (click)="showLoading()" type="submit"
+                      [disabled]="!comen.valid">
+                      <span style="
+                            color: #f6f6f6;
+                            font-size: 20px;
+                            font-family: Gidole-Regular;
+                          ">Agregar comentario</span>
+                    </ion-button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="width: 100%; height: 100%">
+          </div>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </ion-content>
+  <ion-footer style="max-height: 15%">
+    <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg"
+      class="transition duration-300 ease-in-out delay-150">
+      <style>
+        .path-0 {
+          animation: pathAnim-0 4s;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+        }
+
+        @keyframes pathAnim-0 {
+          0% {
+            d: path("M 0,400 C 0,400 0,200 0,200 C 71.91106178320385,166.24116413861142 143.8221235664077,132.48232827722285 188,133 C 232.1778764335923,133.51767172277715 248.62256751757303,168.31185102972006 296,175 C 343.37743248242697,181.68814897027994 421.6876063633001,160.27026760389694 481,161 C 540.3123936366999,161.72973239610306 580.6270070292268,184.6070785546923 625,177 C 669.3729929707732,169.3929214453077 717.804365519793,131.30141817733383 781,155 C 844.195634480207,178.69858182266617 922.1555308916018,264.1872487359724 982,263 C 1041.8444691083982,261.8127512640276 1083.5735109137995,173.94958687877667 1135,166 C 1186.4264890862005,158.05041312122333 1247.5504254532,230.01440374892093 1300,249 C 1352.4495745468,267.9855962510791 1396.2247872734001,233.99279812553954 1440,200 C 1440,200 1440,400 1440,400 Z");
+          }
+
+          25% {
+            d: path("M 0,400 C 0,400 0,200 0,200 C 35.21415710938463,180.64229868047846 70.42831421876926,161.28459736095695 130,154 C 189.57168578123074,146.71540263904305 273.50090023430755,151.50390923665066 329,164 C 384.49909976569245,176.49609076334934 411.5680848440005,196.69976569244048 466,194 C 520.4319151559995,191.30023430755952 602.2267603896905,165.6970279935874 664,152 C 725.7732396103095,138.3029720064126 767.5248735972376,136.51212233321002 814,133 C 860.4751264027624,129.48787766678998 911.6737452213588,124.2544826735726 967,161 C 1022.3262547786412,197.7455173264274 1081.7801455173264,276.4699469724997 1129,267 C 1176.2198544826736,257.5300530275003 1211.2056727093354,159.86572943642864 1261,134 C 1310.7943272906646,108.13427056357136 1375.3971636453323,154.06713528178568 1440,200 C 1440,200 1440,400 1440,400 Z");
+          }
+
+          50% {
+            d: path("M 0,400 C 0,400 0,200 0,200 C 68.02362806757922,220.72738932050808 136.04725613515845,241.45477864101616 189,237 C 241.95274386484155,232.54522135898384 279.83460352694544,202.90827475644346 318,206 C 356.16539647305456,209.09172524355654 394.61432975706003,244.91212233321 450,263 C 505.38567024293997,281.08787766679 577.7080774448143,281.44323591071645 643,249 C 708.2919225551857,216.55676408928352 766.5533604636823,151.31493402392405 822,153 C 877.4466395363177,154.68506597607595 930.0784807004563,223.29702799358736 978,238 C 1025.9215192995437,252.70297200641264 1069.1327167344925,213.4969540017265 1126,198 C 1182.8672832655075,182.5030459982735 1253.3906523615735,190.71515599950672 1308,195 C 1362.6093476384265,199.28484400049328 1401.3046738192133,199.64242200024665 1440,200 C 1440,200 1440,400 1440,400 Z");
+          }
+
+          75% {
+            d: path("M 0,400 C 0,400 0,200 0,200 C 57.25332346775188,225.26476754223702 114.50664693550377,250.52953508447405 162,230 C 209.49335306449623,209.47046491552595 247.22673572573683,143.14662720434083 293,157 C 338.77326427426317,170.85337279565917 392.586410161549,264.88395609816257 460,272 C 527.413589838451,279.11604390183743 608.4276236280676,199.31754840300903 669,181 C 729.5723763719324,162.68245159699097 769.7030953261807,205.84585028980146 819,193 C 868.2969046738193,180.15414971019854 926.7599950672095,111.29905043778518 987,125 C 1047.2400049327905,138.70094956221482 1109.256924404982,234.95794795905783 1149,237 C 1188.743075595018,239.04205204094217 1206.2123073128623,146.86915772598348 1251,125 C 1295.7876926871377,103.13084227401653 1367.8938463435688,151.56542113700826 1440,200 C 1440,200 1440,400 1440,400 Z");
+          }
+
+          100% {
+            d: path("M 0,400 C 0,400 0,200 0,200 C 71.91106178320385,166.24116413861142 143.8221235664077,132.48232827722285 188,133 C 232.1778764335923,133.51767172277715 248.62256751757303,168.31185102972006 296,175 C 343.37743248242697,181.68814897027994 421.6876063633001,160.27026760389694 481,161 C 540.3123936366999,161.72973239610306 580.6270070292268,184.6070785546923 625,177 C 669.3729929707732,169.3929214453077 717.804365519793,131.30141817733383 781,155 C 844.195634480207,178.69858182266617 922.1555308916018,264.1872487359724 982,263 C 1041.8444691083982,261.8127512640276 1083.5735109137995,173.94958687877667 1135,166 C 1186.4264890862005,158.05041312122333 1247.5504254532,230.01440374892093 1300,249 C 1352.4495745468,267.9855962510791 1396.2247872734001,233.99279812553954 1440,200 C 1440,200 1440,400 1440,400 Z");
+          }
+        }
+      </style>
+      <path
+        d="M 0,400 C 0,400 0,200 0,200 C 71.91106178320385,166.24116413861142 143.8221235664077,132.48232827722285 188,133 C 232.1778764335923,133.51767172277715 248.62256751757303,168.31185102972006 296,175 C 343.37743248242697,181.68814897027994 421.6876063633001,160.27026760389694 481,161 C 540.3123936366999,161.72973239610306 580.6270070292268,184.6070785546923 625,177 C 669.3729929707732,169.3929214453077 717.804365519793,131.30141817733383 781,155 C 844.195634480207,178.69858182266617 922.1555308916018,264.1872487359724 982,263 C 1041.8444691083982,261.8127512640276 1083.5735109137995,173.94958687877667 1135,166 C 1186.4264890862005,158.05041312122333 1247.5504254532,230.01440374892093 1300,249 C 1352.4495745468,267.9855962510791 1396.2247872734001,233.99279812553954 1440,200 C 1440,200 1440,400 1440,400 Z"
+        stroke="none" stroke-width="0" fill="#000000ff"
+        class="transition-all duration-300 ease-in-out delay-150 path-0"></path>
+    </svg>
+
+  </ion-footer>
+</ion-app>

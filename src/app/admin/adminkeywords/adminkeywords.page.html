@@ -1,0 +1,132 @@
+<ion-app>
+  <ion-header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <div class="Rectangle-239">
+      <div class="logoInicio">
+        <ion-title class="title">Bienvenido {{nombre}}</ion-title>
+      </div>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <div>
+      <ion-card-subtitle class="subtitleCard">{{nombre}}, estos son los mejores y peores platos del restaurantes:</ion-card-subtitle>
+      <div class="peores_mejores">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Los Mejores Platos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content style="text-align: justify">
+            <ion-list >
+              <ion-item *ngFor="let producto of mejoresProductos" >
+                <ion-icon style="color: green;" name="arrow-up-outline"></ion-icon>
+                <ion-label>&nbsp; {{producto[0]}}</ion-label> <br>
+                <ion-text>&nbsp; {{producto[1]}}</ion-text>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+  
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Los Peores Platos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content> 
+            <ion-list>
+              <ion-item  *ngFor="let producto of peoresProductos" >
+                <ion-icon style="color: rgb(185, 75, 75);" name="arrow-down-outline"></ion-icon>
+                <ion-label>&nbsp; {{producto[0]}}</ion-label>
+                <ion-text>&nbsp; {{producto[1]}}</ion-text>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      
+    </div>
+    <!------------------------------------------------------------------------->
+    <div>
+      <ion-card-subtitle class="subtitleCard"
+        >{{nombre}}, puedes ver lo que opinan sus clientes con respecto
+        a:</ion-card-subtitle
+      >
+
+      <ion-card class="flexCompose">
+        <div class="contenerdorGrafica">
+          <div class="filterStyle">
+            <ion-select
+              interface="action-sheet"
+              (ionChange)="cargaServicio($event)"
+              placeholder="Seleccione Categoria"
+              [value]="servicio"
+            >
+              <ion-select-option value="Comida">Comida</ion-select-option>
+              <ion-select-option value="Costo">Costo</ion-select-option>
+              <ion-select-option value="Atmosfera">Atmosfera</ion-select-option>
+              <ion-select-option value="Ubicacion">Ubicación</ion-select-option>
+              <ion-select-option value="Decoracion"
+                >Decoración</ion-select-option
+              >
+              <ion-select-option value="Limpieza">Limpieza</ion-select-option>
+              <ion-select-option value="AtencionalCliente"
+                >Atención al Cliente</ion-select-option
+              >
+              <ion-select-option value="General">General</ion-select-option>
+            </ion-select>
+            <ion-select
+              style="width: 100%"
+              #sentimientoValue
+              id="sentimientoValue"
+              [disabled]="sentimientoText"
+              interface="action-sheet"
+              (ionChange)="cargaSentimientosPalabras($event)"
+              placeholder="Filtrar por:"
+            >
+              <ion-select-option value="SinClasificacion"
+                >Todos</ion-select-option
+              >
+              <ion-select-option value="positive">Buenos</ion-select-option>
+              <ion-select-option value="mixed">Neutro</ion-select-option>
+              <ion-select-option value="negative">Malos</ion-select-option>
+            </ion-select>
+            <ion-button
+              color="veropciones"
+              [disabled]="habilitacionBoton"
+              class="ButtonBuscar"
+              (click)="obtenerimagencategoria()"
+              >Obtener imagen</ion-button
+            >
+          </div>
+        </div>
+
+        <ion-card-content>
+          <img
+            [src]="imagenKeywords1"
+            style="filter: grayscale(100%)"
+            alt="nubePalabras.png"
+          />
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <div class="filtrarWords">
+          <ion-item>
+            <ion-label>Buscar por palabra:</ion-label>
+            <ion-input
+              placeholder=""
+              class="inputText"
+              [(ngModel)]="texto"
+            ></ion-input>
+          </ion-item>
+
+          <ion-button
+            color="veropciones"
+            class="ButtonBuscar"
+            (click)="filtrarComentario()"
+            >Buscar algo en específico</ion-button
+          >
+        </div>
+      </ion-card>
+    </div>
+  </ion-content>
+</ion-app>

@@ -1,0 +1,136 @@
+<ion-app>
+
+  <ion-menu side="start" contentId="main">
+    <ion-header>
+      <ion-toolbar translucent style="text-align: center">
+        <ion-icon style="zoom: 7" src="../../../assets/formasIcon/logoCocoments.svg"></ion-icon>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-tab-button class="button_inner" (click)="salir()">
+            <ion-icon name="exit-outline"></ion-icon>
+            <ion-label>Salir</ion-label>
+          </ion-tab-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+
+  <ion-header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <div class="Rectangle-239">
+      <div class="logoInicio">
+
+        <ion-title class="title">Bienvenido {{nombre}}</ion-title>
+      </div>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <ion-card-subtitle class="title2">{{nombre}}, te presentamos a tus clientes por:</ion-card-subtitle>
+    <div>
+      <div style="
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          text-align: center;
+          justify-content: center;
+        ">
+        <ion-grid>
+          <div>
+            <ion-grid>
+              <ion-card style="min-height: 250px; max-width: 355px">
+                <ion-card-title class="title1"><ion-icon name="people-outline"></ion-icon>
+                  Edades</ion-card-title>
+                <div style="margin-bottom: 30px" class="chart-container">
+                  <canvas id="bar1"></canvas>
+                </div>
+                <ion-card-content style="text-align: justify">Estimado {{nombre}}, en su negocio llegan una mayor
+                  cantidad
+                  de personas entre {{enfoqueEnEdadesMayor}} años, sin embargo
+                  puede generar nuevas estrategia para personas entre
+                  {{enfoqueEnEdadesMenor}}, con el fin de generar mayores
+                  ingresos</ion-card-content>
+                <ion-button color="veropciones" class="ButtonVerEstrategias" (click)="openModalComentario(true)">Ver
+                  Estrategias</ion-button>
+                <ion-modal [isOpen]="isOpen">
+                  <ng-template>
+                    <ion-header>
+                      <ion-toolbar>
+                        <ion-title>Estrategias</ion-title>
+                        <ion-buttons slot="end">
+                          <ion-button (click)="setOpen(false)">Cerrar</ion-button>
+                        </ion-buttons>
+                      </ion-toolbar>
+                    </ion-header>
+                    <ion-content class="ion-padding">
+                      <ion-card-content style="text-align: justify">Ofrezca una comida gratis para niños una noche cada
+                        semana para atraer a familias, una hora feliz los fines
+                        de semanas para captar a los jóvenes, entre otras.
+                      </ion-card-content>
+                    </ion-content>
+                  </ng-template>
+                </ion-modal>
+              </ion-card>
+            </ion-grid>
+          </div>
+        </ion-grid>
+
+        <ion-grid>
+          <div>
+            <ion-grid>
+              <ion-card style="min-height: 250px; max-width: 355px">
+                <ion-card-title class="title1"><ion-icon name="people-sharp"></ion-icon>
+                  Sexo</ion-card-title>
+                <ion-icon src="../../../assets/icon/man.svg" class="iconImageGender"></ion-icon>
+                <ion-icon src="../../../assets/icon/woman.svg" class="iconImageGender"></ion-icon>
+                <ion-card-content style="text-align: justify">
+                  <apx-chart [series]="series" [chart]="chartBarHorizontal" [colors]="colors"
+                    [plotOptions]="plotOptions" [yaxis]="axesY"></apx-chart>
+
+                  {{nombre}}, su negocio cuenta con un total de
+                  {{cantidadHombres+cantidadMujeres}} clientes registrados en la
+                  aplicación, {{cantidadHombres}} son hombres y
+                  {{cantidadMujeres}} Mujeres
+                </ion-card-content>
+                <!--  Informacion de Estrayegias para el negocio
+                <ion-card-content style="text-align: justify;">
+                  https://www.nrn.com/consumer-trends/cents-woman-targeting-female-customers
+                  https://www.foodabletv.com/blog/2016/3/15/brand-building-connect-female-customer
+                  https://www.cspdailynews.com/foodservice/3-ways-bring-more-female-customers
+                  https://www.dasradler.com/how-to-attract-single-men-and-women-to-your-restaurant-and-increase-profit/
+                  https://www.superbexperience.com/experience-matters/restaurant-and-bar-promotion-event-ideas
+                </ion-card-content>
+                -->
+              </ion-card>
+            </ion-grid>
+          </div>
+        </ion-grid>
+
+        <!-- <ion-grid>
+          <div>
+            <ion-card style="min-height: 250px; max-width: 355px">
+              <ion-card-title class="title1"><ion-icon name="heart"></ion-icon> sus tipos de
+                comentarios</ion-card-title>
+              <ion-card-content>
+                <apx-chart [series]="chartCalificacionOptions.series" [chart]="chartCalificacionOptions.chart"
+                  [colors]="colors"
+                  [plotOptions]="plotOptions"></apx-chart>
+
+                <ion-card-content style="text-align: justify">¿Desea observar que opinan sus clientes sobre su
+                  negocio?</ion-card-content>
+                <ion-button color="veropciones" class="ButtonVerEstrategias" routerLink="/admin-menu/admin-resumen">Ver
+                  Opiniones</ion-button>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-grid> -->
+      </div>
+    </div>
+  </ion-content>
+</ion-app>

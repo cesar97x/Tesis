@@ -1,0 +1,163 @@
+<ion-app>
+  <ion-header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <div class="Rectangle-239">
+      <div class="logoInicio">
+        <ion-title class="title">Hola de nuevo <br />{{nombre}}</ion-title>
+      </div>
+    </div>
+  </ion-header>
+  <ion-content>
+    <div>
+      <ion-list-header
+        style="
+          justify-content: center;
+          width: 100%;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          font-size: 14pt;
+          margin-top: 1em;
+          flex-direction: column;
+        "
+        >Analizando Tus Redes Sociales</ion-list-header
+      >
+
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-self: flex-start;
+        "
+      >
+        <div class="BG">
+          <form (ngSubmit)="buscarComentariosFacebook()" [formGroup]="datos">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle style="text-transform: none; font-size: 17px"
+                >Desea buscar por Fecha:
+              </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              
+                <ion-list style="margin-bottom: 1em">
+                  <ion-item (click)="showPickerInicio = !showPickerInicio">
+                    <ion-label>Desde: </ion-label>
+                    <ion-text slot="end" *ngIf="!showPickerInicio"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+                  </ion-item>
+                  <ion-item (click)="showPickerFin = !showPickerFin">
+                    <ion-label>Hasta: </ion-label>
+                    <ion-text slot="end" *ngIf="!showPickerFin" > {{formattedStringFin| date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+                  </ion-item>
+                </ion-list>
+                <ion-item>
+                  <ion-button color="veropciones" class="ButtonObtener" type="submit" expand="block" [disabled]="!datos.valid">Buscar
+                  </ion-button>
+                  <ion-button color="veropciones" class="ButtonObtener" type="Button" (click)="obtenerComentariosFacebook()" expand="block">Ver todos
+                  </ion-button>
+                </ion-item>
+               
+            </ion-card-content>
+          </ion-card>
+          <div style="justify-content: center;display: flex;">
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date"
+                      (ionChange)="cambiarFechaInicio(datatimeInicio.value)" [max]="dataValueTodayMax"
+                      (ionCancel)="showPickerInicio=false" style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+            <ion-datetime #datatimeFin [value]="dataValue" *ngIf="showPickerFin" presentation="date" style="width: 75%;"
+                      (ionChange)="cambiarFechaFin(datatimeFin.value)" [max]="dataValueTodayMax" (ionCancel)="showPickerFin=false"
+                      style="background-color: white" formControlName="fechaFinForm">
+            </ion-datetime>
+          </div>
+        </form>
+          
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle style="text-transform: none; font-size: 17px">
+                ¿Desea analizar sus nuevos comentarios de Facebook?
+              </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-item>
+                  <ion-button
+                  color="veropciones"
+                  class="ButtonObtener"
+                  (click)="presentAlert()">Analizar Ahora</ion-button>
+                  </ion-item>   
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <ion-grid>
+          <ion-card style="width: 87%;justify-content: center;">
+            <ion-card-title class="titulodinamnico" *ngIf="!listaFiltrada">Lista de Comentarios obtenidas de su pagina de Facebook</ion-card-title>
+            <ion-card-title class="titulodinamnico" *ngIf="listaFiltrada">Lista de Comentarios  Almacenadas</ion-card-title>
+
+            <div style="display: flex;
+            flex-direction: column;">
+              
+              <ion-list>
+                <ion-item *ngFor="let item of comentariosObtenidos" (click)="openModalComentario(item, true)">
+                  <ion-avatar slot="start">
+                    <ion-icon style="zoom: 2.5" name="logo-facebook"></ion-icon>
+                  </ion-avatar>
+                  <ion-label *ngIf="!listaFiltrada" >
+                    <h2>{{item[4]}}</h2>
+                    <h3>{{item[5]}}</h3>
+                    <h3>{{item[1] | date:'short':'ISO' }}</h3>
+                    <p>{{item[0]}}</p>
+                  </ion-label>
+                  <ion-label *ngIf="listaFiltrada" >
+                    <h2>{{item.categoriaComentario}}</h2>
+                    <h3>{{item.nombreProducto}}</h3>
+                    <h3>{{item.fecha_comentario | date:'short':'ISO' }}</h3>
+                    <p>{{item.comentario_completo}}</p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+            <ion-modal [isOpen]="isOpen">
+              <ng-template>
+                <ion-header>
+                  <ion-toolbar>
+                    <ion-title>Comentario</ion-title>
+                    <ion-buttons slot="end">
+                      <ion-button (click)="setOpen(false)">Cerrar</ion-button>
+                    </ion-buttons>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-content class="ion-padding">
+                  <div *ngIf="!listaFiltrada" >
+                    <ion-card-header style="align-items: center;text-align: center;">
+                      <img style="    text-align: center; max-height: 30%; max-width: 40%;" src="{{comentarioSelect[6]}}" alt="imgenPostFacebbok.png">
+                      <ion-card-title style="text-align: center; font-weight: bold;"> {{comentarioSelect[4]}} </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <ion-card-subtitle>{{comentarioSelect[1] | date:'short':'ISO' }} |  {{comentarioSelect[5]}} </ion-card-subtitle>                      
+                      <ion-label style="font-size: 17px; font-weight: bold;">Comentario Realizado:</ion-label> <br>
+                      <span>{{comentarioSelect[0]}}</span><br>
+                    </ion-card-content>
+                  </div>
+                   <div *ngIf="listaFiltrada">
+                    <ion-card-header   style="align-items: center;text-align: center;">
+                      <img style="    text-align: center; max-height: 30%; max-width: 40%;" src="{{comentarioSelect.imagen}}" alt="imgenPostFacebbok.png">
+                      <ion-card-title style="text-align: center; font-weight: bold;"> {{comentarioSelect.categoriaComentario}} </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <ion-card-title style="text-align: center; font-weight: bold; text-transform: capitalize;" >{{comentarioSelect.resumen_comentario}}</ion-card-title>
+                      <ion-card-subtitle>{{comentarioSelect.fecha_comentario | date:'short':'ISO' }} |  {{comentarioSelect.nombreProducto}} </ion-card-subtitle>                      
+                      <ion-label style="font-size: 17px; font-weight: bold;">Comentario Realizado:</ion-label> <br>
+                      <span>{{comentarioSelect.comentario_completo}}</span><br>
+                    </ion-card-content>
+                   </div>
+                </ion-content>
+              </ng-template>
+            </ion-modal>
+          </ion-card>
+        </ion-grid>
+      </div>
+    </div>
+  </ion-content>
+</ion-app>

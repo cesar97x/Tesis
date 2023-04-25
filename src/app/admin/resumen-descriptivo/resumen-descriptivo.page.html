@@ -1,0 +1,196 @@
+<ion-app>
+  <ion-menu side="start" contentId="main">
+    <ion-header>
+      <ion-toolbar translucent style="text-align: center">
+        <ion-icon style="zoom: 7" src="../../../assets/formasIcon/picanteria.svg"></ion-icon>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-tab-button class="button_inner" (click)="salir()">
+            <ion-icon name="exit-outline"></ion-icon>
+            <ion-label>Salir</ion-label>
+          </ion-tab-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+
+  <ion-header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <div class="Rectangle-239">
+      <div class="logoInicio">
+        <ion-title class="title">Bienvenido {{nombre}}</ion-title>
+      </div>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <div class="BG">
+      <ion-card-subtitle class="title2">{{nombre}}, aqui puedes obtener tu reporte: </ion-card-subtitle>
+
+      <ion-segment style="margin-top: 1em;" value="Todos" (ionChange)="tipoBusqueda($event)">
+        <ion-segment-button value="general">
+          <ion-label >Venta P</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="platostotales">
+          <ion-label >Venta T</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="gananciaPlato">
+          <ion-label >Ganancia P</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="gananciatotal">
+          <ion-label >Ganancia T</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div class="filtro" *ngIf="tipoBusquedaFiltro!=='Todos'">
+      <ion-card class="filtroContent">
+        <div *ngIf="tipoBusquedaFiltro==='general'" class="BG">
+          <form (ngSubmit)="cargarResumenFechaPlato()" [formGroup]="datos">
+            <ion-label><b>Aqui podras ver el total de ventas que se a realizado de acuerdo a la fecha y el plato seleccionado:</b></ion-label>
+            <ion-item class="BG" (click)="showPickerInicio = !showPickerInicio">
+              <ion-label>Seleccionar Fecha:</ion-label>
+              <ion-text slot="end"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date" size="cover"
+              (ionChange)="cambiarFechaInicio(datatimeInicio.value)" [max]="dataValueTodayMax"
+              (ionCancel)="showPickerInicio=false" style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+            <ion-item style="margin-top: 1em">
+              <ion-select interface="action-sheet" placeholder="Categoria" (ionChange)="actualizarValoresBusquedas($event)">
+                <ion-select-option value="Almuerzos">Almuerzos</ion-select-option>
+                <ion-select-option value="Chuleta Frita">Chuleta Frita</ion-select-option>
+                <ion-select-option value="Merienda">Merienda</ion-select-option>
+                <ion-select-option value="Jugos">Jugos</ion-select-option>
+                <ion-select-option value="Desayunos">Desayunos</ion-select-option>
+                <ion-select-option value="Camaron Apanado">Camaron Apanado</ion-select-option>
+                <ion-select-option value="Seco de Carne">Seco de Carne</ion-select-option>
+                <ion-select-option value="Pescado Frito">Pescado Frito</ion-select-option>
+                <ion-select-option value="Seco de Pollo">Seco de Pollo</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-button color="loginbutton" class="BG" type="submit" expand="block" [disabled]="!datos.valid"><span
+                style="color: #f6f6f6; font-size: 20px; font-family: Inter-Bold">Analizar</span>
+            </ion-button>
+            <ion-label>
+              <p>
+                Tienes un total de {{cantidad}} platos vendidos este dia.
+              </p>
+              
+            </ion-label>
+          </form>
+        </div>
+        <div *ngIf="tipoBusquedaFiltro==='platostotales'">
+          <form (ngSubmit)="cargarResumenFechaPlato()" [formGroup]="datos">
+            <ion-label> <b>Aqui podras ver el total de ventas que se a realizado de acuerdo a la fecha seleccionada:</b></ion-label>
+            <ion-item class="BG" (click)="showPickerInicio = !showPickerInicio">
+              <ion-label>Fecha Inicio:</ion-label>
+              <ion-text slot="end"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date" size="cover"
+              (ionChange)="cambiarFechaInicio(datatimeInicio.value)" [max]="dataValueTodayMax"
+              (ionCancel)="showPickerInicio=false" style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+            <ion-button color="loginbutton" class="BG" type="submit" expand="block" [disabled]="!datos.valid"><span
+                style="color: #f6f6f6; font-size: 20px; font-family: Inter-Bold">Analizar</span>
+            </ion-button>
+
+            <ion-label>
+              Tienes un total de {{cantidad}} platos vendidos este dia.
+            </ion-label>
+          </form>
+        </div>
+        <div *ngIf="tipoBusquedaFiltro==='gananciaPlato'" class="BG">
+          <form (ngSubmit)="cargarResumenFechaPlato()" [formGroup]="datos">
+            <ion-label><b> Aqui podras ver el total de ganancias de acuerdo al plato seleccionado:</b></ion-label>
+            <ion-item class="BG" (click)="showPickerInicio = !showPickerInicio">
+              <ion-label>Seleccionar Fecha:</ion-label>
+              <ion-text slot="end"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date" size="cover"
+              (ionChange)="cambiarFechaInicio(datatimeInicio.value)" [max]="dataValueTodayMax"
+              (ionCancel)="showPickerInicio=false" style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+            <ion-item style="margin-top: 1em">
+              <ion-select interface="action-sheet" placeholder="Categoria" (ionChange)="actualizarValoresBusquedas($event)">
+                <ion-select-option value="Almuerzos">Almuerzos</ion-select-option>
+                <ion-select-option value="Chuleta Frita">Chuleta Frita</ion-select-option>
+                <ion-select-option value="Merienda">Merienda</ion-select-option>
+                <ion-select-option value="Jugos">Jugos</ion-select-option>
+                <ion-select-option value="Desayunos">Desayunos</ion-select-option>
+                <ion-select-option value="Camaron Apanado">Camaron Apanado</ion-select-option>
+                <ion-select-option value="Seco de Carne">Seco de Carne</ion-select-option>
+                <ion-select-option value="Pescado Frito">Pescado Frito</ion-select-option>
+                <ion-select-option value="Seco de Pollo">Seco de Pollo</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-button color="loginbutton" class="BG" type="submit" expand="block" [disabled]="!datos.valid"><span
+                style="color: #f6f6f6; font-size: 20px; font-family: Inter-Bold">Analizar</span>
+            </ion-button>
+            <ion-label>
+              Obtienes un total de $ {{total}} dolares ganacias por plato este dia.
+            </ion-label>
+          </form>
+        </div>
+        <div *ngIf="tipoBusquedaFiltro==='gananciatotal'">
+          <form (ngSubmit)="cargarResumenFechaPlato()" [formGroup]="datos">
+            <ion-label> <b>Aqui podras ver el total de ganancias obtenidas por fecha seleccionada:</b></ion-label>
+            <ion-item class="BG" (click)="showPickerInicio = !showPickerInicio">
+              <ion-label>Fecha Inicio:</ion-label>
+              <ion-text slot="end"> {{formattedStringInicio | date:'yyyy-MM-dd HH:mm:ss'}} </ion-text>
+            </ion-item>
+            <ion-datetime #datatimeInicio [value]="dataValue" *ngIf="showPickerInicio" presentation="date" size="cover"
+              (ionChange)="cambiarFechaInicio(datatimeInicio.value)" [max]="dataValueTodayMax"
+              (ionCancel)="showPickerInicio=false" style="background-color: white" formControlName="fechaInicioForm">
+            </ion-datetime>
+            <ion-button color="loginbutton" class="BG" type="submit" expand="block" [disabled]="!datos.valid"><span
+                style="color: #f6f6f6; font-size: 20px; font-family: Inter-Bold">Analizar</span>
+            </ion-button>
+
+            <ion-label>
+              Obtienes un total de $ {{total}} dolares ganancias totales este dia.
+            </ion-label>
+          </form>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let report of reports">
+            <div>
+              <ion-list>
+                <ion-card style="height: 200px ;max-height: 300px; min-width: 300px;" (click)="openModalComentario(report, true)">
+                  <ion-card-header>
+                    <ion-card-title style="text-transform: capitalize">
+                      {{report.producto.nombreProducto}}</ion-card-title
+                    >
+                    <ion-card-subtitle *ngIf="tipoFecha!==true && tipoBusquedaFiltro==='Todos'" style="margin-top: 2em"><ion-icon name="calendar"></ion-icon> {{report.fecha_comentario.toDate() | date:'short':'ISO'}}</ion-card-subtitle >
+                    <ion-card-subtitle *ngIf="tipoFecha===true"  style="margin-top: 2em"><ion-icon name="calendar"></ion-icon> {{report.fecha_comentario | date:'short':'ISO'}}</ion-card-subtitle >
+                  </ion-card-header>
+        
+                  <ion-card-content> {{report.producto.nombreProducto}} </ion-card-content>
+                </ion-card>        
+              </ion-list>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div> -->
+  </ion-content>
+  <ion-footer collapse="fade">
+    <ion-toolbar>
+      <div class="footerDerechosAutor">
+        <ion-label class="derechosAutor">
+          &#169; 2022 Todos los derechos reservados | Developed by HG & MD
+        </ion-label>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>

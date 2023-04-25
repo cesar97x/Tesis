@@ -1,0 +1,120 @@
+<ion-app>
+  <ion-header class="ion-no-border" collapse="fade">
+  </ion-header>
+  
+  <ion-content>
+
+
+    <div>
+      <ion-slides pager="true" [options]="slideOpts" >
+        <ion-slide class="gridInicio">
+          <div>
+            <div>
+              <ion-icon class="logo" src="../../assets/formasIcon/logonow.svg" ></ion-icon>
+            </div>
+            <div>
+              <h1 class="titulo">
+                El Sabor de la Diversión
+              </h1>
+            </div>
+            <div>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </div>
+          </div>
+          
+        </ion-slide>
+
+        <ion-slide class="gridParaPantalla">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#273036" fill-opacity="0.94" d="M0,288L16,245.3C32,203,64,117,96,74.7C128,32,160,32,192,64C224,96,256,160,288,186.7C320,213,352,203,384,192C416,181,448,171,480,149.3C512,128,544,96,576,69.3C608,43,640,21,672,21.3C704,21,736,43,768,85.3C800,128,832,192,864,218.7C896,245,928,235,960,208C992,181,1024,139,1056,154.7C1088,171,1120,245,1152,277.3C1184,309,1216,299,1248,261.3C1280,224,1312,160,1344,122.7C1376,85,1408,75,1424,69.3L1440,64L1440,0L1424,0C1408,0,1376,0,1344,0C1312,0,1280,0,1248,0C1216,0,1184,0,1152,0C1120,0,1088,0,1056,0C1024,0,992,0,960,0C928,0,896,0,864,0C832,0,800,0,768,0C736,0,704,0,672,0C640,0,608,0,576,0C544,0,512,0,480,0C448,0,416,0,384,0C352,0,320,0,288,0C256,0,224,0,192,0C160,0,128,0,96,0C64,0,32,0,16,0L0,0Z"></path></svg>
+          <div>
+            <div class="gridEtiquetas1">
+              <div>
+                <ion-card >
+                  <ion-card-header>
+                    
+                    <ion-card-title class="textoComentarioTitulo">
+                      <div>
+                        <ion-icon class="logoSlide2" src="../../assets/formasIcon/logonow.svg" ></ion-icon>
+                      </div>
+                     <!-- El Sabor de la Diversión-->
+                    </ion-card-title>
+                  </ion-card-header>
+                </ion-card>
+              </div>
+      
+              <div style="min-width: 48% ;">
+      
+                <ion-card >
+                  
+                  <form (ngSubmit)="login()" [formGroup]="credentials">
+                    <ion-item-group>
+                      <ion-item class="BG">
+                        <ion-input
+                          class="Email"
+                          style="padding-inline-start: 0%"
+                          placeholder="Email"
+                          type="email"
+                          formControlName="email"
+                          [(ngModel)]="email1"
+                          required
+                        ></ion-input>
+                        <ion-note slot="error" *ngIf="(email.dirty || email.touched) && email.errors">Email no es Valido</ion-note>
+                      </ion-item>
+            
+                      <ion-item class="BG">
+                        <ion-input
+                          #Password
+                          id="Password"
+                          class="Password"
+                          placeholder="Contraseña"
+                          type="password"
+                          formControlName="password"
+                          [(ngModel)]="password1"
+                          required
+                        ></ion-input>
+                        <ion-label #labelMostrar id="labelMostrar" class="Show" *ngIf="labelMostrar === false"(click)="mostrarPassword()"> Mostrar</ion-label>
+                        <ion-label #labelMostrar id="labelMostrar" class="Show" *ngIf="labelMostrar === true"  (click)="ocultarPassword()"> Ocultar</ion-label>
+                        <ion-note slot="error" *ngIf="(password.dirty || password.touched) && password.errors">Contraseña necesita minimo 8 caracteres</ion-note>
+                      </ion-item>
+                      <div>
+                        <ion-label class="Olvidaste-tu-contrasea" (click)="mostrarPassword()">¿Olvidaste tu contraseña?</ion-label>
+                      </div>
+                    </ion-item-group>
+                    <ion-button color="loginbutton" class="ButtonLogin" type="submit" expand="block" [disabled]="!credentials.valid"><span style=" color: #f6f6f6; font-size: 20px; font-family:Gidole-Regular ">log in</span> </ion-button>
+                    <div>
+                      <ion-label class="O-inicia-sesin-con">O inicia sesión con:</ion-label>
+                      <div  class="redeSociales" >
+                        <ion-button color="light" class="ButtonRedesSociales" (click)="iniciarConGoogle()" >
+                          <ion-img src="../../assets/iconsBN/gmail.png" style="zoom:3.0;"></ion-img>
+                        </ion-button>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="linkToRegistrar">
+                    <ion-label class="linkToRegistrarStyle">
+                      Aun no tienes cuenta, <a [routerLink]="['/sing-up']"> Registrate Ahora</a>
+                    </ion-label>
+                  </div>
+      
+                </ion-card>
+              </div>
+
+            
+
+            </div>
+          </div>
+          
+          
+        </ion-slide>
+        
+
+        
+      </ion-slides>
+    </div>
+
+    
+        
+
+    
+  </ion-content>
+</ion-app>

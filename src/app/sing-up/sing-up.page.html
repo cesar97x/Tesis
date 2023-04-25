@@ -1,0 +1,117 @@
+<ion-app>
+  <ion-header class="ion-no-border" collapse="fade">
+  </ion-header>
+
+
+  <ion-content>
+    <div style="text-align: center;">
+      <div >
+        <div class="gridEtiquetas1">
+          <div>
+            <ion-card >
+              <ion-card-header>
+                
+                <ion-card-title class="textoComentarioTitulo">
+                  <div>
+                    <ion-icon class="logoSlide2" src="../../assets/formasIcon/picanteria.svg" ></ion-icon>
+                  </div>
+                  La Picanteria
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </div>
+  
+          <div style="min-width: 48% ;">
+            <ion-card>
+              <form (ngSubmit)="register()" [formGroup]="datos">
+                <ion-item-group>
+                  
+                  <ion-item class="BG">
+                    <ion-input
+                      class="Email"
+                      style="padding-inline-start: 0%"
+                      placeholder="Correo Electrónico "
+                      type="email"
+                      [(ngModel)]="email"
+                      required
+                      formControlName="emailForm"
+                    ></ion-input>
+                    <ion-icon name="close-circle-sharp" *ngIf="(emailForm.dirty || emailForm.touched) && (emailForm.errors)"></ion-icon>
+                    <ion-icon  name="checkmark-circle-outline" *ngIf="(emailForm.dirty || emailForm.touched) && (emailForm.errors === null)"></ion-icon>
+                    
+                  </ion-item>
+        
+                  <ion-item class="BG">
+                    <ion-input
+                      #Password
+                      id="Password"
+                      class="Password"
+                      placeholder="Contraseña"
+                      type="password"
+                      [(ngModel)]="password"
+                      required
+                      formControlName="passwordForm"
+                      (keyup)="validarRobustezPassword($event)" 
+                      [color]="passwordStrong"
+                    ></ion-input>
+                    
+                    <ion-label #labelMostrar id="labelMostrar" class="Show" *ngIf="labelMostrar === false"(click)="mostrarPassword()"> Mostrar</ion-label>
+                    <ion-label #labelMostrar id="labelMostrar" class="Show" *ngIf="labelMostrar === true"  (click)="ocultarPassword()"> Ocultar</ion-label>
+                    
+                    <ion-icon name="close-circle-sharp" *ngIf="(passwordForm.dirty || passwordForm.touched) && (passwordForm.errors)"></ion-icon>
+                    <ion-icon  name="checkmark-circle-outline" *ngIf="(passwordForm.dirty || passwordForm.touched) && (passwordForm.errors === null)"></ion-icon>
+                  </ion-item>
+              
+                  <ion-item class="BG">
+                    <ion-input
+                      #PasswordConfirmacion
+                      id="PasswordConfirmacion"
+                      class="Password"
+                      placeholder="Confirmar Contraseña"
+                      type="password"
+                      formControlName="passwordValidacionForm"
+                      [(ngModel)]="passwordValidacion"
+                      required
+                      (keyup)="validarIgualdadPassword($event)" 
+                      [color]="passwordStrongVerificacion"
+                    ></ion-input>
+                    <ion-label #labelMostrarConfirmacion id="labelMostrarConfirmacion" class="Show" *ngIf="labelMostrarConfirmacion === false"(click)="mostrarPasswordConfirmacion()"> Mostrar</ion-label>
+                    <ion-label #labelMostrarConfirmacion id="labelMostrarConfirmacion" class="Show" *ngIf="labelMostrarConfirmacion=== true"  (click)="ocultarPasswordConfirmacion()"> Ocultar</ion-label>
+                    
+                    <ion-icon name="close-circle-sharp" *ngIf="(passwordValidacionForm.dirty || passwordValidacionForm.touched) && (passwordValidacionForm.errors)"></ion-icon>
+                    <ion-icon  name="checkmark-circle-outline" *ngIf="(passwordValidacionForm.dirty || passwordValidacionForm.touched) && (passwordValidacionForm.errors === null)"></ion-icon>
+                  </ion-item>
+                </ion-item-group>
+                <ion-button color="loginbutton" class="ButtonRegistrar" type="submit" expand="block" [disabled]="!datos.valid"><span style=" color: #f6f6f6; font-size: 20px; font-family: Gidole-Regular ">Registrar</span> </ion-button>
+              </form>
+  
+              <div>
+                <ion-label class="O-inicia-sesin-con">O registrate con:</ion-label>
+                <div class="redeSociales">
+                  <ion-button
+                    color="light"
+                    class="ButtonRedesSociales"
+                    (click)="registrarConGoogle()">
+                    <ion-img src="../../assets/iconsBN/gmail.png" style="zoom:3.0;"></ion-img>
+                    
+                  </ion-button>
+                </div>
+              </div>
+        
+              <div class="linkToLogin">
+                <ion-label class="linkToLoginStyle">
+                  Ya tienes cuenta,
+                  <a class="Show" [routerLink]="['/login-page']"> Inicia Sesión Ahora</a>
+                </ion-label>
+              </div>
+  
+            </ion-card>
+  
+          </div>
+        </div>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#273036" fill-opacity="0.94" d="M0,192L20,197.3C40,203,80,213,120,181.3C160,149,200,75,240,80C280,85,320,171,360,202.7C400,235,440,213,480,197.3C520,181,560,171,600,176C640,181,680,203,720,192C760,181,800,139,840,144C880,149,920,203,960,197.3C1000,192,1040,128,1080,90.7C1120,53,1160,43,1200,58.7C1240,75,1280,117,1320,144C1360,171,1400,181,1420,186.7L1440,192L1440,320L1420,320C1400,320,1360,320,1320,320C1280,320,1240,320,1200,320C1160,320,1120,320,1080,320C1040,320,1000,320,960,320C920,320,880,320,840,320C800,320,760,320,720,320C680,320,640,320,600,320C560,320,520,320,480,320C440,320,400,320,360,320C320,320,280,320,240,320C200,320,160,320,120,320C80,320,40,320,20,320L0,320Z"></path></svg>     </div>
+    
+    
+  </ion-content>
+</ion-app>
