@@ -1,0 +1,83 @@
+.fade-in{
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+    }
+    @keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-webkit-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-o-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-ms-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+  
+  
+  .titulogame {
+      font-family: 'Sedgwick Ave Display', cursive;
+      //font-size: 25px;
+      //font-weight: bold;
+      color: white;
+     }
+  
+  .tituloIndicacion {
+      font-family: 'Sigmar One', cursive;
+      color: black;
+  }
+  
+  .tituloof {
+      font-family: 'Goblin One', cursive;
+  }
+  
+  .informacion{
+      background-color: darkgoldenrod;
+  }
+  
+  
+  .preguntaColor{
+      background-color: #F9E79F;
+  }
+  
+  
+  .barra{
+      background-color: #2E4053;
+  }
+  
+  .bodyBackground {
+      --background: #F9E79F;
+     // background-image: url('/assets/icon/favicon.png');
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+  
+  
+  .LetraInformacion {
+      font-family: 'Sigmar One';
+      font-size: 22px;
+      color:#641E16;
+  }
+  
+  .info{
+      color:white;
+  }
+  
+  
