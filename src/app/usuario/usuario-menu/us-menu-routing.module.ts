@@ -33,10 +33,19 @@ const routes: Routes = [
         ...canActivate(redirectUnauthorizedToLogin) 
       }, 
       {
+        path: 'usuario-menugames',
+        loadChildren: () => import('../menugame/menu/menu.module').then( m => m.MenuPageModule),
+        ...canActivate(redirectUnauthorizedToLogin) 
+      }, 
+     
+
+      {
         path: '',
         redirectTo: '/usuario-menu/usuario-comentario',
         pathMatch: 'full'
       },
+
+
     ]
 
   },
