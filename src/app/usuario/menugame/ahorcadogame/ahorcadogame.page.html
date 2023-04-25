@@ -1,9 +1,136 @@
-<ion-header>
+<!-- Sección superior -->
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>ahorcadogame</ion-title>
+    <ion-title> Hanged Game </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+
+<ion-progress-bar style="height: 10px;" [value]="timer.current/timer.max" 
+[color]="(timer.current/timer.max>0.5) ? 'danger':'warning'">
+</ion-progress-bar>
+
+<!-- Sección contenido -->
+<ion-content class="ion-padding">
+
+  <!-- Sección header-->
+  <ion-card class="panel-juego">
+    
+    <ion-card-header text-center>
+    <ion-card-title text-center>
+      <strong>
+        <h3>{{texto}}</h3>
+      </strong>
+    </ion-card-title> 
+    </ion-card-header>
+  </ion-card>
+
+  <!-- Sección imagen + vidas + puntos -->
+  <ion-row>
+    <ion-col col-4
+      ><img src="/assets/imgs/ahor-{{imagen}}.png" width="80%"
+    /></ion-col>
+    <ion-col col-8>
+      <ion-row>
+        <ion-col col-3 text-center
+          ><h5><ion-icon name="heart" color="danger"></ion-icon></h5
+        ></ion-col>
+        <ion-col col-6><h5>Vidas:</h5></ion-col>
+        <ion-col col-3 text-center><h5>{{vidas}}</h5></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-3 text-center
+          ><h5><ion-icon name="calculator" color="primary"></ion-icon></h5
+        ></ion-col>
+        <ion-col col-6><h5>Puntos:</h5></ion-col>
+        <ion-col col-3 text-center><h5>{{puntos}}</h5></ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+
+  <!-- Sección huecos de palabra -->
+  <ion-list>
+    <!-- Mensajes de la aplicación -->
+    <ion-label text-center>{{mensaje}}</ion-label>
+
+    <ion-grid>
+      <ion-row *ngIf="ganador!=1">
+        <ion-col class="palabra" col-1 *ngFor="let item of palabra">
+          {{item}}
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="ganador==1">
+        <ion-col class="acierto">
+          La palabra secreta es: {{nombreSecreto}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-item>
+      <!-- Selector que nos permitirá elegir una letra -->
+      <ion-label>Seleccione una letra</ion-label>
+      <ion-select [(ngModel)]="letra">
+        <ion-select-option value="A">A</ion-select-option>
+        <ion-select-option value="B">B</ion-select-option>
+        <ion-select-option value="C">C</ion-select-option>
+        <ion-select-option value="D">D</ion-select-option>
+        <ion-select-option value="E">E</ion-select-option>
+        <ion-select-option value="F">F</ion-select-option>
+        <ion-select-option value="G">G</ion-select-option>
+        <ion-select-option value="H">H</ion-select-option>
+        <ion-select-option value="I">I</ion-select-option>
+        <ion-select-option value="J">J</ion-select-option>
+        <ion-select-option value="K">K</ion-select-option>
+        <ion-select-option value="L">L</ion-select-option>
+        <ion-select-option value="M">M</ion-select-option>
+        <ion-select-option value="N">N</ion-select-option>
+        <ion-select-option value="Ñ">Ñ</ion-select-option>
+        <ion-select-option value="O">O</ion-select-option>
+        <ion-select-option value="P">P</ion-select-option>
+        <ion-select-option value="Q">Q</ion-select-option>
+        <ion-select-option value="R">R</ion-select-option>
+        <ion-select-option value="S">S</ion-select-option>
+        <ion-select-option value="T">T</ion-select-option>
+        <ion-select-option value="U">U</ion-select-option>
+        <ion-select-option value="V">V</ion-select-option>
+        <ion-select-option value="W">W</ion-select-option>
+        <ion-select-option value="X">X</ion-select-option>
+        <ion-select-option value="Y">Y</ion-select-option>
+        <ion-select-option value="Z">Z</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-row>
+    <!-- Listado de letras utilizadas -->
+    <ion-label text-center>Listado de letras utilizadas</ion-label>
+    <ion-col col-12 text-center><h6>{{letras_utilizadas}}</h6></ion-col>
+  </ion-row>
+
+  <!-- En caso de no tener vidas, mostramos un botón para reiniciar el juego -->
+  <ion-row *ngIf="vidas!=0 && ganador!=1">
+    <ion-col col-4>
+      <!-- Si continuamos teniendo vidas, mostramos el botón para seleccionar letra  -->
+      <ion-button expand="block" color="primary" (click)="confirmarResolver()">
+        Resolver
+      </ion-button></ion-col
+    >
+    <ion-col col-8>
+      <!-- Si continuamos teniendo vidas, mostramos el botón para seleccionar letra  -->
+      <ion-button expand="block" color="secondary" (click)="compruebaLetra()">
+        Seleccionar letra
+      </ion-button>
+    </ion-col>
+  </ion-row>
+<!--
+  <ion-button
+    *ngIf="vidas==0 || ganador==1"
+    expand="block"
+    (click)="reiniciaJuego()"
+  >
+    Jugar de nuevo
+  </ion-button>
+
+  -->
 </ion-content>

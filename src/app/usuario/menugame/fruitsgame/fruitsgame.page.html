@@ -1,9 +1,98 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>fruitsgame</ion-title>
+    <ion-title class="tituloIndicacion">Cards Fruits</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-progress-bar style="height: 10px;" [value]="timer.current/timer.max"
+  [color]="(timer.current/timer.max>0.5) ? 'danger':'warning'">
+</ion-progress-bar>
+
+
 <ion-content>
 
+  <!-- Show loading screen -->
+  <div align="center" >
+    <br>
+    <h2>Combina todas las cartas para ganar!</h2>
+    
+    
+  </div>
+
+  <ion-card>
+    <ion-card-content align="center" class="fondogame" style=" border: solid 5px #000; border-radius: 12px;">
+
+
+      <!-- Actual cards display -->
+
+
+      <div align="center">
+        <h2 class="tituloIndicacion">¡ COMBINA TODAS LAS CARTAS!</h2>
+      </div>
+      <ion-row align-items-center text-center size="8">
+
+        <ion-col align-self-center size="3" *ngFor="let c of cardsArray; let i = index">
+          <!-- mostrar el fondo de la tarjeta -->
+          <img src="../assets/img/cards/bcuadrado.png"
+            *ngIf="c.pos != selectCard1pos && c.pos != selectCard2pos && c.val > -1"
+            (click)="selectCard(c.pos, c.val,i)"
+            style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+
+          <!-- MOSTRAR LA TARJETA 1 SELECCIONADA-->
+          <img [src]="imageDir + images[c.val] + '.png'" *ngIf="c.pos == selectCard1pos && c.val > -1"
+            style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <!-- MOSTRAR LA TARJETA 2 SELECCIONADA-->
+          <img [src]="imageDir + images[c.val] + '.png'" *ngIf="c.pos == selectCard2pos && c.val > -1"
+            style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <!-- MOSTRAR LA TARJETA en blanco-->
+          <img *ngIf="c.val == -1"
+            style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;visibility: hidden;">
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card-content>
+
+    <div align="center">
+      <br>
+      <ion-row>
+        <ion-col col-9>
+          <p class="LetraInformacion">Tiempo:<span class="info"> {{texto}}</span></p>
+        </ion-col>
+
+        <ion-col col-9>
+          <p class="LetraInformacion">Puntos:<span class="info"> {{score}}</span> </p>
+        </ion-col>
+
+        <ion-col col-9>
+          <p class="LetraInformacion">Vidas:<span class="info"> {{userLife}}</span></p>
+        </ion-col>
+        
+      </ion-row>
+    </div>
+    <!-- mostrar pantalla cuando se gana
+    <div *ngIf="gameState =='win'" align="center">
+      <br>
+      <p>Tu has <span style="color:#00CC00; font-size: 24px;"> GANADO </span> esto!</p>
+      <p>Te gustaria jugar de nuevo? </p>
+      <br>
+      <ion-button size="large" color="danger" (click)="restartGame()">
+        <ion-icon name="repeat"></ion-icon>
+        &nbsp; &nbsp; Jugar de nuevo
+      </ion-button>
+    </div>
+-->
+    <!-- mostrar pantalla cuando se pierde
+    <div *ngIf="gameState == 'lose'" align="center">
+      <br>
+      <p>Tu has<span style="color:#CC0000; font-size: 24px;"> PERDIDO </span>!</p>
+      <p>Te gustaria jugar de nuevo?</p>
+      <br>
+      <ion-button size="large" color="danger" (click)="restartGame()">
+        <ion-icon name="repeat"></ion-icon>
+        &nbsp; &nbsp; Jugar de nuevo
+      </ion-button>
+    </div>
+-->
+  </ion-card>
 </ion-content>
