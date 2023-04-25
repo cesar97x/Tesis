@@ -63,9 +63,11 @@ const routes: Routes = [
   {
     path: 'reg-ven',
     loadChildren: () => import('./admin/reg-ven/reg-ven.module').then( m => m.RegVenPageModule)
-  },  {
+  },
+  {
     path: 'menugame',
-    loadChildren: () => import('./game/menugame/menugame.module').then( m => m.MenugamePageModule)
+    loadChildren: () => import('./game/menugame/menugame.module').then( m => m.MenugamePageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
   },
 
 
