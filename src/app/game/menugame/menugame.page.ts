@@ -12,4 +12,14 @@ export class MenugamePage implements OnInit {
   ngOnInit() {
   }
 
+  rating: number = 0;
+
+  rate(index: number) {
+    this.rating = index;
+  }
+
+  submitRating() {
+    console.log('Calificación:', this.rating);
+  }
+
 }
