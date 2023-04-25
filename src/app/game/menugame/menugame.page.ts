@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Auth } from '@angular/fire/auth';
 @Component({
   selector: 'app-menugame',
   templateUrl: './menugame.page.html',
@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenugamePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private auth: Auth
+    ) { }
 
   ngOnInit() {
   }
