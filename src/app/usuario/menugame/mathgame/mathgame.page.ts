@@ -4,6 +4,8 @@ import { annotate } from 'rough-notation';
 import { Question } from './models/question';
 import { Observable, timer } from 'rxjs';
 import { Answer } from './models/answer';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { GameI } from 'src/app/models/game';
 
 @Component({
   selector: 'app-mathgame',
@@ -12,7 +14,11 @@ import { Answer } from './models/answer';
 })
 export class MathgamePage {
 
+  path:string='Games/'
+
   questions: Question[];
+
+  preguntasmaximas: number=0;
   min: number;
   max: number;
   score: number;
@@ -20,10 +26,14 @@ export class MathgamePage {
   timer: any;
   timerObs: any;
   vidas:number=6;
+  game:GameI;
 
   limite:number=1000;
 
-  constructor(public alertController: AlertController, public navCtrl:NavController) {
+  constructor(public alertController: AlertController,
+     public navCtrl:NavController,
+     private database:FirestoreService
+    ) {
     this.startGame();
   }
 
@@ -35,6 +45,7 @@ export class MathgamePage {
     this.timer = { current: 0, max:this.limite };
     this.questions = [];
     this.addQuestion();
+    this.preguntasmaximas=0;
 
     const everySecond: Observable<number> = timer(0, 1000);
     this.timerObs = everySecond.subscribe((seconds) => {
@@ -62,6 +73,8 @@ export class MathgamePage {
  
   addQuestion() {
     this.date = Date.now();
+    this.preguntasmaximas+=1;
+    console.log('>>>>>>>>>>>>>>',this.preguntasmaximas)
     let ans1, ans2;
     const a = Math.floor(Math.random() * this.max) + this.min;
     const b = Math.floor(Math.random() * this.max) + this.min;
@@ -111,6 +124,29 @@ export class MathgamePage {
     q.answers.push({ value: result - ans2, isCorrect: false });
     this.shuffle(q.answers);
     this.questions.unshift(q);
+
+    if(this.preguntasmaximas==5 && this.score>0){
+
+
+      console.log("*************Gano")
+      this.exitTimer();
+      this.gameFinished();
+      
+      //*********************************************** */
+      this.game ={
+        
+        puntos:String(this.score),
+        vidas:String(this.vidas),
+        tiempo:String(this.texto),
+        estado:String("gano")
+      }
+      
+      
+      this.database.addDocumento(this.game,this.path)
+
+      
+      
+    }
   }
 
   shuffle(arr) {
@@ -127,6 +163,7 @@ export class MathgamePage {
         let add= 5
         if (add > 0) {
           this.score += add;
+          
         }
       } else {
         let add= 2
@@ -137,11 +174,27 @@ export class MathgamePage {
 
         
         this.vidas=this.vidas-1
-        if(this.vidas==0){
+        console.log('*******',this.preguntasmaximas)
+        if(this.vidas==0&&this.score==0 ||this,this.preguntasmaximas==5){
+          
           this.exitTimer();
           this.gameFinished();
           
+
+          this.game ={
+            
+            puntos:String(this.score),
+            vidas:'0',
+            tiempo:String(this.texto),
+            estado:String("perdio"),
+            
+          }
+          
+          
+          this.database.addDocumento(this.game,this.path)
+          
         }
+        
         
 
         annotation = annotate(e, { type: 'crossed-off', color: '#F57F17' });
@@ -158,8 +211,14 @@ export class MathgamePage {
       //increase diff
       this.max += 2;
       this.min += 1;
+      
+      
       setTimeout(() => {
+        
+
         this.addQuestion();
+        
+      
       }, 1200);
     }
     question.isDone = true;

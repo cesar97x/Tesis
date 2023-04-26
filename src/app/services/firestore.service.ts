@@ -129,4 +129,11 @@ export class FirestoreService {
     return imagenUrl;
   }
 
+
+   addDocumento(data:any,path:string){
+    const notesRef = collection(this.firestore, path);
+    return addDoc(notesRef, data)
+  }
+
+
   }
