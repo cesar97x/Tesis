@@ -188,6 +188,7 @@ export class AuthService {
         }else{ 
           this.router.navigateByUrl('/usuario-menu', { replaceUrl: true });
         }
+        return user;
       } else {
         this.showAlert('Login fallido', 'Por favor intente de nuevo!');
         return null;

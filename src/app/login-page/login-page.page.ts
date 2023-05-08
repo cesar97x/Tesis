@@ -33,7 +33,8 @@ export class LoginPagePage implements OnInit {
     private loadingController: LoadingController,
     private database:FirestoreService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {
     if (!isPlatform('capacitor')){
       GoogleAuth.initialize({
@@ -78,11 +79,31 @@ export class LoginPagePage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
  
-    const user = await this.authService.login(this.credentials.value);
+    const user = await this.authService.login(this.credentials.value)
+   
+    if(user){
+      console.log("Usuario ok")
+      
+    }else{
+      console.log("Usuario false")
+      this.presentAlert();
+    }
+    
     console.log("logueo con google")
 
-    console.log(this.credentials.value)
+    //console.log(this.credentials.value)
     await loading.dismiss();
+  }
+
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: 'Correo o contraseña incorrectos',
+      buttons: ['OK']
+    });
+  
+    await alert.present();
   }
 
   public iniciarConFacebook(){
