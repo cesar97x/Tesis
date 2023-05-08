@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pedidos Admin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment mode="ios"  (ionChange)="changeselect($event)" value="nuevos">
+    <ion-segment-button value="nuevos">
+      <ion-label>nuevos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="culminados">
+      <ion-label>culminados</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  
+
+  <div *ngFor="let pedido of pedidosnuevos" >
+    <ion-card style="position:relative">
+      <ion-item>
+        
+        <ion-label>
+          Estado: {{pedido.estado}}
+          <p>
+            fecha: {{pedido.fecha.seconds*1000 |date}}
+          </p>
+          <p>
+            cliente: {{pedido.cliente.nombres}}
+          </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label> Estado: </ion-label>
+        <ion-select (ionChange)="cambiarEstado(pedido,$event)" [value]="pedido.estado" okText="Ok" cancelText="cancelar" interface="popover"  placeholder="Selecciona una">
+          <ion-select-option *ngFor="let est of estados" [value]="est">{{est}}</ion-select-option> 
+        </ion-select>
+      </ion-item>
+      
+      <img class="img-producto" [src]="pedido.premio.imagen">
+    <ion-item>
+      <ion-label><strong>{{pedido.premio.nombre}}</strong></ion-label>
+      
+    </ion-item>
+    
+    <p class="tachado">{{pedido.premio.puntos}}</p>
+   
+    </ion-card>
+</div>
+
+</ion-content>

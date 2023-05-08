@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ResumenServiceService } from 'src/app/services/resumen-service.service';
 import { Comentario } from 'src/app/models/Note';
+import { PerfilInterface } from 'src/app/models/UserInterface';
+import { usuarioI } from 'src/app/models/game';
 
 @Component({
   selector: 'app-usuario-perfil',
@@ -34,6 +36,20 @@ export class UsuarioPerfilPage implements OnInit {
   public formattedString = '';
   selectedMode = 'date';
   public userAccount = null;
+  uid='';
+
+  usuarioperfil:usuarioI={
+    nombres:null,
+    apellido:null,
+    email:null,
+    fechaNacimiento: null,
+    uid:null,
+    perfil:null,
+    direccion : null,
+    genero : null,
+    edad: null
+  }
+ 
 
   constructor(
     private authService: AuthService,
@@ -44,14 +60,27 @@ export class UsuarioPerfilPage implements OnInit {
     private listaService : FirestoreService,
     private resumenService: ResumenServiceService,
   ) {
+
+    //this.authService.usuariostateAuth.
+    //this.obteneiddeusuario();
+    
     this.setToday();
+   
   }
 
   setToday() {
     this.formattedString = format(parseISO(this.dataValue), 'yyyy-MMMM-d');
   }
 
-  ngOnInit() {
+   async ngOnInit() {
+    //****para recuperar un usaurio o el q iniciosesion */
+    this.uid = await this.authService.getUid();
+    console.log('usuario en perfil ontenido--->==>',this.uid)
+    this.getUserInfo(this.uid);
+   
+    //****para recuperar un usaurio o el q iniciosesion */
+
+    
     this.listarComentarioService()
 
 
@@ -187,4 +216,17 @@ export class UsuarioPerfilPage implements OnInit {
     this.router.navigateByUrl('/login-page', { replaceUrl: true });
     console.log('salir')
   }
+
+  
+
+  getUserInfo(uid:string){
+    console.log('uid-------------',uid)
+    const path='users/'
+    const info:any =this.database.getDocUsu<usuarioI>(path,this.uid).subscribe(res=>{
+      console.log('uressssss --->',res)
+      this.usuarioperfil=res;
+    });
+    console.log('usuario de inicio de sesion --->',info)
+  }
+
 }

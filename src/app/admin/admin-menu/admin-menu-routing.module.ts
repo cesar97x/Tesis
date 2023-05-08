@@ -46,6 +46,15 @@ const routes: Routes = [
         ...canActivate(redirectUnauthorizedToLogin)
       },
       {
+        path: 'set-premios',
+        loadChildren: () => import('../set-premios/set-premios.module').then( m => m.SetPremiosPageModule),
+        //...canActivate(redirectUnauthorizedToLogin)
+      },
+      {
+        path: 'pedidos',
+        loadChildren: () => import('../pedidos/pedidos.module').then( m => m.PedidosPageModule)
+      },
+      {
         path: '',
         redirectTo: '/admin-menu/admin-perfil',
         pathMatch: 'full'

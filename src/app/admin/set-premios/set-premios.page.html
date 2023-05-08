@@ -1,0 +1,124 @@
+<ion-app>
+
+  <!---
+  <ion-menu side="start" contentId="main">
+    <ion-header>
+      <ion-toolbar translucent style="text-align: center">
+        <ion-icon style="zoom: 7" src="../../../assets/formasIcon/picanteria.svg"></ion-icon>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-tab-button class="button_inner">
+            <ion-icon name="exit-outline"></ion-icon>
+            <ion-label>Salir</ion-label>
+          </ion-tab-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+-->
+
+  <ion-header>
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>-->
+    <div class="Rectangle-239">
+
+      <div class="logoInicio">
+        <ion-title class="title"> Configuracion de Premios </ion-title>
+      </div>
+
+    </div>
+
+  </ion-header>
+
+
+
+
+  <ion-content>
+    <div class="btnadd">
+      <ion-button (click)="newproducto()"  color="dark"><ion-icon name="add-circle-outline"></ion-icon> nuevo </ion-button>
+    </div>
+
+    <ion-card *ngIf="enablenewpremio">
+      <ion-item>
+        <ion-buttons slot="end">
+          <ion-button (click)="enablenewpremio=false;">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+          
+            <ion-button *ngIf="!actualizar" class="button" color="dark" expand="full" (click)="guardarpremios()">
+              <ion-icon slot="icon-only" name="save-sharp"></ion-icon>
+              
+            </ion-button>
+            <ion-button *ngIf="actualizar" class="button" color="dark" expand="full" (click)="editar()">
+              <ion-icon name="card"></ion-icon>
+            </ion-button>
+          
+        </ion-buttons>
+      </ion-item>
+    
+      <h3 class="subtitulo p-3">Ingrese datos del Premio </h3>
+     
+      <ion-item>
+        <ion-label class="normal" position="floating">
+          Nombre :
+        </ion-label>
+        <ion-input [(ngModel)]="newPremio.nombre" class="normal" type="text" inputmode="text">
+        </ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label class="normal" position="floating">
+          Puntos :
+        </ion-label>
+        <ion-input [(ngModel)]="newPremio.puntos" class="normal" type="number" inputmode="numeric">
+        </ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label class="normal">
+          Imagen :
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button>
+            <label for="file-upload">
+              <ion-icon slot="icon-only" name="images"></ion-icon>
+            </label> 
+            <input (change)="newImageUpload($event)" id="file-upload" style="display:none;" type="file"  accept="image/*">
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+
+      <ion-item >
+        <img class="imgcarga" [src]="newPremio.imagen" >
+      </ion-item>
+
+    </ion-card>
+    
+
+    
+
+
+
+    <ion-card>
+      <h3 class="subtitulo p-3">Lista de Premio </h3>
+    <ion-item *ngFor="let pr of premios">
+      <ion-label>
+        {{pr.nombre}}
+      </ion-label>
+      <ion-label>
+        {{pr.puntos}}
+      </ion-label>
+      <ion-buttons>
+        <ion-button (click)=" formeditar(pr)"> <ion-icon slot="icon-only" name="create-sharp"></ion-icon></ion-button>
+        <ion-button (click)="delete(pr)"> <ion-icon color="danger" slot="icon-only"
+            name="trash-bin"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-card>
+
+  </ion-content>
+</ion-app>

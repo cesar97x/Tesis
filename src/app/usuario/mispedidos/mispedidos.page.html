@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>mispedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment mode="ios"  (ionChange)="changeselect($event)" value="nuevos">
+    <ion-segment-button value="nuevos">
+      <ion-label>nuevos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="culminados">
+      <ion-label>culminados</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  
+
+  <div *ngFor="let item of pedidosnuevos" >
+    <ion-card style="position:relative">
+      <ion-item>
+        <ion-label>
+          Estado: {{item.estado}}
+          <p>
+            fecha: {{item.fecha.seconds*1000 |date}}
+          </p>
+        </ion-label>
+      </ion-item>
+      <img class="img-producto" [src]="item.premio.imagen">
+    <ion-item>
+      <ion-label><strong>{{item.premio.nombre}}</strong></ion-label>
+      
+    </ion-item>
+    
+    <p class="tachado">{{item.premio.puntos}}</p>
+   
+    </ion-card>
+</div>
+
+</ion-content>

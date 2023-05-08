@@ -25,6 +25,9 @@ import {
 } from 'firebase/auth';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Usuario } from '../models/Usuario';
+import { usuarioI } from '../models/game';
+import { FirestoreService } from './firestore.service';
 
 
 @Injectable({
@@ -33,16 +36,35 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 export class AuthService {
 
+ 
+  usuarioperfil:usuarioI={
+    nombres:null,
+    apellido: null,
+    email:null,
+    fechaNacimiento: null,
+    uid:null,
+    perfil:null,
+    direccion : null,
+    genero : null,
+    edad: null
+  }
+
   public providerG = new GoogleAuthProvider();
+  uid:string;
 
   constructor(
+    private database:FirestoreService,
     private router: Router,
     private auth: Auth, 
     private firestore: Firestore, 
     private alertController: AlertController,
     private platform: Platform,
     private googlePlus: GooglePlus,
-    private afAuth: AngularFireAuth) {  }
+    private afAuth: AngularFireAuth) { 
+      //quitar si no funcoina recuperar el id de usuario con el q se ingresa
+      //this.usuariostateAuth();
+      this.getUid();
+     }
 
   // async googleSignIn() {
   //   let googleUser = await GoogleAuth.signIn();
@@ -121,7 +143,9 @@ export class AuthService {
     const res = await this.afAuth.signInWithPopup(new firebase.default.auth.GoogleAuthProvider());
     const user = res.user;
     if(user.emailVerified == true){
-      console.log("Entra al metodo"+user);
+      console.log("Entra al metodo"+user.uid);
+      const path='puebausu/'
+      
       this.router.navigateByUrl('/usuario-menu', { replaceUrl: true });
     }
   }
@@ -193,6 +217,39 @@ export class AuthService {
       return null;
     }
   }
+
+  stateAuth(){
+    return this.auth.onAuthStateChanged(()=>{
+      
+    });
+  }
+
+ usuariostateAuth(){
+    return this.auth.onAuthStateChanged;
+      
+      //(user) => {
+    //if (user) {
+      // User is signed in.
+      //this.usuarioperfil = user;
+      //this.uid=user.uid;
+      //const usuario:any=this.database.getUsuarioByID(this.uid) ;
+      //console.log('usuariostateAuth()->',usuario.nombre)
+      //this.usuarioIniciosesion();
+    //} else {
+
+      // No user is signed in.
+      //
+     // this.currentUser = null;
+    //}
+  //});
+ }
+
+
+ usuarioIniciosesion(){
+  console.log('usuarioIniciosesion()',this.uid)
+  return this.uid;
+
+ }
 
   async getCorreo() {
     const correoU = await this.auth.currentUser;

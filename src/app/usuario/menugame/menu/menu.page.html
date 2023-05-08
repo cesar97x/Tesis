@@ -13,7 +13,7 @@
     <ion-card>
       <ion-item>
         <ion-avatar  slot="start">
-          <img src="src=../../assets/images/math.jpg">
+          <img  src="src=../../assets/images/math.jpg">
         </ion-avatar>
         <ion-label>
           <ion-card-title>Game Math</ion-card-title>
@@ -23,26 +23,30 @@
   
       <ion-card-header  class="myphoto">
         
-        <img src="src=../../assets/images/math.jpg" alt="ion">
+        <img class="img-producto" src="src=../../assets/images/math.jpg" alt="ion">
       </ion-card-header>
   
       <ion-card-content class="ion-margin-top">
-        Un juego de matemáticas que involucre suma, resta y 
+        <strong>Descripcion:</strong>
+        <p> Un juego de matemáticas que involucra suma, resta y 
         multiplicación puede ser una actividad en la que los jugadores 
         deben realizar operaciones matemáticas con números que les son 
-        presentados en una situación de juego.
+        presentados en el juego.
+      </p>
       </ion-card-content>
+      
       
       <ion-button fill="outline" color="success" href="/usuario-menu/usuario-menugames/mathgame"><ion-icon name="play"></ion-icon> Play </ion-button>
   
-      
-      <ion-item>
+      <!-- 
+     <ion-item>
         <ion-label>Calificación:</ion-label>
         <ion-icon name="star" *ngFor="let i of [1, 2, 3, 4, 5]" [style.color]="i <= rating ? 'orange' : 'gray'"
           (click)="rate(i)"></ion-icon>
       </ion-item>
-      <ion-button (click)="submitRating()">Enviar calificación</ion-button>
       
+      <ion-button (click)="submitRating()">Enviar calificación</ion-button>
+    -->
     </ion-card> 
   
   
@@ -50,7 +54,7 @@
     <ion-card>
       <ion-item>
         <ion-avatar  slot="start">
-          <img src="src=../../assets/images/ahorcado.png">
+          <img  src="src=../../assets/images/ahorcado.png">
         </ion-avatar>
         <ion-label>
           <ion-card-title>Hanged Game</ion-card-title>
@@ -60,14 +64,13 @@
   
       <ion-card-header  class="myphoto">
         
-        <img src="src=../../assets/images/ahorcado.png" alt="ion">
+        <img  class="img-producto" src="src=../../assets/images/ahorcado.png" alt="ion">
       </ion-card-header>
   
       <ion-card-content class="ion-margin-top">
-        Un juego de matemáticas que involucre suma, resta y 
-        multiplicación puede ser una actividad en la que los jugadores 
-        deben realizar operaciones matemáticas con números que les son 
-        presentados en una situación de juego.
+        <strong>Descripcion:</strong>
+        <p> Adivina la palabra, complentando cada letra, tienes 6 oportunidades, caso contrario perderas puntos.
+      </p>
       </ion-card-content>
       
       <ion-button fill="outline" color="success" href="/usuario-menu/usuario-menugames/ahorcadogame"><ion-icon name="play"></ion-icon> Play </ion-button>
@@ -86,14 +89,14 @@
   
       <ion-card-header  class="myphoto">
         
-        <img src="src=../../assets/images/fruits.jpg" alt="ion">
+        <img class="img-producto" src="src=../../assets/images/fruits.jpg" alt="ion">
       </ion-card-header>
   
       <ion-card-content class="ion-margin-top">
-        Un juego de matemáticas que involucre suma, resta y 
-        multiplicación puede ser una actividad en la que los jugadores 
-        deben realizar operaciones matemáticas con números que les son 
-        presentados en una situación de juego.
+        <strong>Descripcion:</strong>
+        <p>
+         Consiste en buscar dos frutas iguales, tienes 6 oportunidades caso contrario pierdes el juego
+        </p>
       </ion-card-content>
       
       <ion-button fill="outline" color="success" href="/usuario-menu/usuario-menugames/fruitsgame"><ion-icon name="play"></ion-icon> Play </ion-button>

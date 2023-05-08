@@ -5,7 +5,9 @@ import { Question } from './models/question';
 import { Observable, timer } from 'rxjs';
 import { Answer } from './models/answer';
 import { FirestoreService } from 'src/app/services/firestore.service';
-import { GameI } from 'src/app/models/game';
+import { GameI, usuarioI } from 'src/app/models/game';
+import { PuntajeI } from 'src/app/models/Puntaje';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-mathgame',
@@ -30,12 +32,47 @@ export class MathgamePage {
 
   limite:number=1000;
 
+  //********************* */
+	usuarioperfil: usuarioI = {
+		nombres: null,
+		apellido: null,
+		email: null,
+		fechaNacimiento: null,
+		uid: null,
+		perfil: null,
+		direccion: null,
+		genero: null,
+		edad: null
+	}
+  nowpuntaje: PuntajeI = {
+		id: null,
+		cliente: null,
+		puntajetotal: null
+	}
+  uid = '';
+  puntaje: PuntajeI;
+  
   constructor(public alertController: AlertController,
+    private authService: AuthService,
      public navCtrl:NavController,
      private database:FirestoreService
     ) {
     this.startGame();
   }
+  async ngOnInit() {
+		//this.restartGame();
+		//****para recuperar un usaurio o el q iniciosesion */
+		this.uid = await this.authService.getUid();
+		console.log('usuario en perfil ontenido--->==>', this.uid)
+		this.getUserInfo(this.uid);
+		this.Nowrecuperapuntosusuarios(this.uid)
+		//this.obtenerPuntajebyUsuario(this.uid);
+		//this.NowcreateandUpdate()
+		//this.obtenerPuntajebyUsuarioOf(this.uid)
+		//this.obtenerPuntajebyUsuario();
+
+		//****para recuperar un usaurio o el q iniciosesion */
+	}
 
   startGame() {
     this.exitTimer();
@@ -135,16 +172,21 @@ export class MathgamePage {
       //*********************************************** */
       this.game ={
         
-        puntos:String(this.score),
-        vidas:String(this.vidas),
+        puntos:this.score,
+        vidas:this.vidas,
         tiempo:String(this.texto),
         estado:String("gano")
       }
+      this.puntaje = {
+				id: this.uid,
+				cliente: this.usuarioperfil,
+				puntajetotal: this.score
+
+			}
       
       
       this.database.addDocumento(this.game,this.path)
-
-      
+			this.NowcreateandUpdate(this.puntaje)
       
     }
   }
@@ -183,16 +225,21 @@ export class MathgamePage {
 
           this.game ={
             
-            puntos:String(this.score),
-            vidas:'0',
+            puntos:this.score,
+            vidas:0,
             tiempo:String(this.texto),
             estado:String("perdio"),
             
           }
-          
+          this.puntaje = {
+            id: this.uid,
+            cliente: this.usuarioperfil,
+            puntajetotal: this.score
+    
+          }
           
           this.database.addDocumento(this.game,this.path)
-          
+          this.NowcreateandUpdate(this.puntaje)
         }
         
         
@@ -258,5 +305,81 @@ export class MathgamePage {
     });
     await alert.present();
   }
+
+  getUserInfo(uid: string) {
+		console.log('uid-------------', uid)
+		const path = 'users/'
+		const info: any = this.database.getDocUsu<usuarioI>(path, this.uid).subscribe(res => {
+			console.log('uressssss --->', res)
+			this.usuarioperfil = res;
+      this.usuarioperfil = res;
+			if(res){
+				console.log("si existe el usuario en  users")
+			}else{
+				console.log("No existe el usuario en  users")
+				var usuarioNE: usuarioI = {
+					nombres: null,
+					apellido: null,
+					email: null,
+					fechaNacimiento: null,
+					uid: null,
+					perfil: null,
+					direccion: null,
+					genero: null,
+					edad: null
+				}
+				this.database.createususuariogoogle(usuarioNE,this.uid)
+				console.log("creadooooooooooo")
+			}
+		});
+		console.log('usuario de inicio de sesion --->', info)
+	}
+
+
+	NowcreateandUpdate(puntos: PuntajeI) {
+
+		//console.log('uid-------------',uid)
+		const path = 'PuntajeActual/'
+		//const id='asddasfdasf'
+
+		if (this.nowpuntaje) {
+			console.log('------> actulizando')
+			console.log('------> score ganado',puntos.puntajetotal)
+			console.log('------> score almacenado',this.nowpuntaje.puntajetotal)
+
+			const sumatotal = this.nowpuntaje.puntajetotal += puntos.puntajetotal;
+			console.log('------> sumatotal',sumatotal)
+			const puntajenew: PuntajeI = {
+				id: puntos.id,
+				cliente: puntos.cliente,
+				puntajetotal: sumatotal
+
+			}
+			this.database.updateDoc(puntajenew, path, this.uid)
+
+
+		} else {
+			console.log('------> creando')
+			this.database.createpuntaje(puntos, this.uid)
+		}
+
+		//this.puntaje=res;
+		//console.log('puntaje usuario --->',this.puntaje)
+
+	
+	//console.log('puntaje usuario --->',info)
+
+}
+Nowrecuperapuntosusuarios(uid:string){
+	//console.log('uid-------------',uid)
+	const path = 'PuntajeActual/'
+	//const id = 'asddasfdasf'
+	const info: any = this.database.getDocUsu<PuntajeI>(path,uid).subscribe(res => {
+		this.nowpuntaje = res
+		console.log("puntaje de usuario@@@@@", this.nowpuntaje)
+	});
+	//console.log('puntaje usuario --->',info)
+
+}
 
 }

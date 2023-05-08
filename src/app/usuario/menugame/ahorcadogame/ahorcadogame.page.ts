@@ -6,6 +6,10 @@ import { ToastController } from '@ionic/angular';
 // Importación necesaria para alerts.
 import { AlertController } from '@ionic/angular';
 import { Observable, timer } from 'rxjs';
+import { PuntajeI } from 'src/app/models/Puntaje';
+import { GameI, usuarioI } from 'src/app/models/game';
+import { AuthService } from 'src/app/services/auth.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-ahorcadogame',
@@ -13,6 +17,8 @@ import { Observable, timer } from 'rxjs';
   styleUrls: ['./ahorcadogame.page.scss'],
 })
 export class AhorcadogamePage  {
+  path:string='Games/'
+  game:GameI;
   limite:number=1000;
   min: number=0;
   max: number=0;
@@ -40,13 +46,47 @@ export class AhorcadogamePage  {
   // Creamos un array para guardar las letras que se van seleccionando.
   controlLetras = new Array();
 
+  //********************* */
+	usuarioperfil: usuarioI = {
+		nombres: null,
+		apellido: null,
+		email: null,
+		fechaNacimiento: null,
+		uid: null,
+		perfil: null,
+		direccion: null,
+		genero: null,
+		edad: null
+	}
+  nowpuntaje: PuntajeI= {
+		id: null,
+		cliente: null,
+		puntajetotal: null
+	}
+  uid = '';
+  puntaje: PuntajeI;
+
   constructor(
+    private database:FirestoreService,
     public navCtrl: NavController,
+    private authService: AuthService,
     private toastCtrl: ToastController,
     public alertController: AlertController
   ) {
     this.startGame();
   }
+
+  async ngOnInit() {
+		
+		//****para recuperar un usaurio o el q iniciosesion */
+		this.uid = await this.authService.getUid();
+		console.log('usuario en perfil ontenido--->==>', this.uid)
+		this.getUserInfo(this.uid);
+		this.Nowrecuperapuntosusuarios(this.uid)
+		
+	}
+
+
 
   //Metodo Tiempo H:m:s
   texto:String="";
@@ -346,7 +386,7 @@ export class AhorcadogamePage  {
           message:
             'Lo sentimos!, La palabra ' +
             solucion +
-            ' no es la palabra secreta. Su error le resta 4 puntos.',
+            ' no es la palabra secreta. .',
           duration: this.durationMessages,
           cssClass: 'toast-danger',
           position: 'top',
@@ -378,6 +418,25 @@ export class AhorcadogamePage  {
       });
       (await toast).present();
       this.gameFinished();
+      this.game ={
+        
+        puntos:this.puntos,
+        vidas:this.vidas,
+        tiempo:String(this.texto),
+        estado:String("pierde")
+      }
+
+      this.puntaje = {
+				id: this.uid,
+				cliente: this.usuarioperfil,
+				puntajetotal: this.puntos
+
+			}
+      
+      
+      this.database.addDocumento(this.game,this.path)
+			this.NowcreateandUpdate(this.puntaje)
+
     }
 
     // Ganador
@@ -396,7 +455,25 @@ export class AhorcadogamePage  {
         position: 'top',
       });
       (await toast).present();
+      
+      
       this.gameFinished();
+      this.game ={
+        
+        puntos:this.puntos,
+        vidas:this.vidas,
+        tiempo:String(this.texto),
+        estado:String("gano")
+      }
+      this.puntaje = {
+				id: this.uid,
+				cliente: this.usuarioperfil,
+				puntajetotal: this.puntos
+
+			}
+      this.database.addDocumento(this.game,this.path)
+      this.NowcreateandUpdate(this.puntaje)
+      
     }
     //this.gameFinished();
     
@@ -446,6 +523,81 @@ export class AhorcadogamePage  {
   }
 
 
+  getUserInfo(uid: string) {
+		console.log('uid-------------', uid)
+		const path = 'users/'
+		const info: any = this.database.getDocUsu<usuarioI>(path, this.uid).subscribe(res => {
+			console.log('uressssss --->', res)
+			this.usuarioperfil = res;
+      this.usuarioperfil = res;
+			if(res){
+				console.log("si existe el usuario en  users")
+			}else{
+				console.log("No existe el usuario en  users")
+				var usuarioNE: usuarioI = {
+					nombres: null,
+					apellido: null,
+					email: null,
+					fechaNacimiento: null,
+					uid: null,
+					perfil: null,
+					direccion: null,
+					genero: null,
+					edad: null
+				}
+				this.database.createususuariogoogle(usuarioNE,this.uid)
+				console.log("creadooooooooooo")
+			}
+		});
+		console.log('usuario de inicio de sesion --->', info)
+	}
+
+
+	NowcreateandUpdate(puntos: PuntajeI) {
+
+		//console.log('uid-------------',uid)
+		const path = 'PuntajeActual/'
+		//const id='asddasfdasf'
+
+		if (this.nowpuntaje) {
+			console.log('------> actulizando')
+			console.log('------> score ganado',puntos.puntajetotal)
+			console.log('------> score almacenado',this.nowpuntaje.puntajetotal)
+
+			const sumatotal = this.nowpuntaje.puntajetotal += puntos.puntajetotal;
+			console.log('------> sumatotal',sumatotal)
+			const puntajenew: PuntajeI = {
+				id: puntos.id,
+				cliente: puntos.cliente,
+				puntajetotal: sumatotal
+
+			}
+			this.database.updateDoc(puntajenew, path, this.uid)
+
+
+		} else {
+			console.log('------> creando')
+			this.database.createpuntaje(puntos, this.uid)
+		}
+
+		//this.puntaje=res;
+		//console.log('puntaje usuario --->',this.puntaje)
+
+	
+	//console.log('puntaje usuario --->',info)
+
+}
+Nowrecuperapuntosusuarios(uid:string){
+	//console.log('uid-------------',uid)
+	const path = 'PuntajeActual/'
+	//const id = 'asddasfdasf'
+	const info: any = this.database.getDocUsu<PuntajeI>(path,uid).subscribe(res => {
+		this.nowpuntaje = res
+		console.log("puntaje de usuario@@@@@", this.nowpuntaje)
+	});
+	//console.log('puntaje usuario --->',info)
+
+}
  
 
 }

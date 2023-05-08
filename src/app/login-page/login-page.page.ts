@@ -5,6 +5,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { AlertController, IonInput, IonLabel, isPlatform, LoadingController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Plugins } from '@capacitor/core';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-login-page',
@@ -30,6 +31,7 @@ export class LoginPagePage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loadingController: LoadingController,
+    private database:FirestoreService,
     private authService: AuthService,
     private router: Router
   ) {
@@ -77,6 +79,9 @@ export class LoginPagePage implements OnInit {
     await loading.present();
  
     const user = await this.authService.login(this.credentials.value);
+    console.log("logueo con google")
+
+    console.log(this.credentials.value)
     await loading.dismiss();
   }
 
@@ -87,6 +92,11 @@ export class LoginPagePage implements OnInit {
   async iniciarConGoogle(){
     
    this.authService.loginGoogle();
+   console.log("correo")
+   console.log(this.authService)
+   console.log("*********uid")
+   console.log(this.authService.getUid)
+
    this.router.navigateByUrl('/usuario-menu', { replaceUrl: true });
 
   }

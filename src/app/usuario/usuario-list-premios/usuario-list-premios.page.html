@@ -1,0 +1,43 @@
+<ion-app>
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      
+      Premios
+      <ion-icon name="gift"></ion-icon></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<!--
+  <ion-item *ngFor="let item of premios">
+    {{item.nombre}}
+  </ion-item>
+-->
+<div>
+  <ion-item slot="end">
+    <ion-label><p class="fant"> Puntos actuales :{{nowpuntaje.puntajetotal}}</p><ion-icon name="disc-outline" class="icon-moneda"></ion-icon> </ion-label>
+    
+  </ion-item>
+  
+</div>
+  <div *ngFor="let item of premios" >
+    <ion-card  style="position:relative">
+      <img class="img-producto" [src]="item.imagen" >
+    <ion-item>
+      <ion-label><strong>{{item.nombre}}</strong></ion-label>
+      
+    </ion-item>
+    
+    <p class="tachado">{{item.puntos}}</p>
+    <ion-icon (click)="hacerpedido(item)" class="icon-premio" name="rocket"></ion-icon>
+    </ion-card>
+</div>
+
+</ion-content>
+</ion-app>

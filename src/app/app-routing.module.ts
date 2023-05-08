@@ -63,7 +63,23 @@ const routes: Routes = [
   {
     path: 'reg-ven',
     loadChildren: () => import('./admin/reg-ven/reg-ven.module').then( m => m.RegVenPageModule)
+  },  {
+    path: 'set-premios',
+    loadChildren: () => import('./admin/set-premios/set-premios.module').then( m => m.SetPremiosPageModule)
   },
+  {
+    path: 'usuario-list-premios',
+    loadChildren: () => import('./usuario/usuario-list-premios/usuario-list-premios.module').then( m => m.UsuarioListPremiosPageModule)
+  },
+  {
+    path: 'mispedidos',
+    loadChildren: () => import('./usuario/mispedidos/mispedidos.module').then( m => m.MispedidosPageModule)
+  },
+  {
+    path: 'pedidos',
+    loadChildren: () => import('./admin/pedidos/pedidos.module').then( m => m.PedidosPageModule)
+  },
+
   
   
   

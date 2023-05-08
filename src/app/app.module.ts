@@ -30,6 +30,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     provideAuth(() => getAuth()), 
     provideFirestore(() => getFirestore()), 
     provideStorage(() => getStorage()),
+  
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy},GooglePlus],
   bootstrap: [AppComponent],

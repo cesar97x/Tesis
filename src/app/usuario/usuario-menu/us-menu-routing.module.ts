@@ -37,7 +37,15 @@ const routes: Routes = [
         loadChildren: () => import('../menugame/menu/menu.module').then( m => m.MenuPageModule),
         ...canActivate(redirectUnauthorizedToLogin) 
       }, 
-     
+      {
+        path: 'usuario-list-premios',
+        loadChildren: () => import('../usuario-list-premios/usuario-list-premios.module').then( m => m.UsuarioListPremiosPageModule)
+      },
+      {
+        path: 'mispedidos',
+        loadChildren: () => import('../mispedidos/mispedidos.module').then( m => m.MispedidosPageModule)
+      },
+    
 
       {
         path: '',

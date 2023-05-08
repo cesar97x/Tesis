@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UsuarioMenuPageRoutingModule } from './us-menu-routing.module';
+import { UsuarioListPremiosPageRoutingModule } from './usuario-list-premios-routing.module';
 
-import { UsuarioMenuPage } from './us-menu.page';
-import { PremioComponent } from '../componentes/premio/premio.component';
+import { UsuarioListPremiosPage } from './usuario-list-premios.page';
 import { ComponentesModule } from '../componentes/componentes.module';
 
 @NgModule({
@@ -15,13 +14,9 @@ import { ComponentesModule } from '../componentes/componentes.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    UsuarioMenuPageRoutingModule,
+    UsuarioListPremiosPageRoutingModule,
     ComponentesModule,
-  
-    
-    
-
   ],
-  declarations: [UsuarioMenuPage]
+  declarations: [UsuarioListPremiosPage]
 })
-export class UsuarioMenuPageModule {}
+export class UsuarioListPremiosPageModule {}
