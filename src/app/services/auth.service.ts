@@ -213,7 +213,18 @@ export class AuthService {
   async getUid() {
     const user = await this.auth.currentUser;
     if (user) {
+      console.log("usuario obtendido --->",user)
       return user.uid;
+    } else {
+      return null;
+    }
+  }
+
+  async getname() {
+    const user = await this.auth.currentUser;
+    if (user) {
+      console.log("usuario obtendido --->",user)
+      return user.displayName;
     } else {
       return null;
     }

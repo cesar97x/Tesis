@@ -37,6 +37,7 @@ export class UsuarioPerfilPage implements OnInit {
   selectedMode = 'date';
   public userAccount = null;
   uid='';
+  namegog='';
 
   usuarioperfil:usuarioI={
     nombres:null,
@@ -63,7 +64,7 @@ export class UsuarioPerfilPage implements OnInit {
 
     //this.authService.usuariostateAuth.
     //this.obteneiddeusuario();
-    
+    this.traerusuarioxgoogle()
     this.setToday();
    
   }
@@ -72,9 +73,17 @@ export class UsuarioPerfilPage implements OnInit {
     this.formattedString = format(parseISO(this.dataValue), 'yyyy-MMMM-d');
   }
 
+  //user: any;
+  traerusuarioxgoogle(){
+    
+    console.log('pruebba b->',this.authService.stateAuth.toString)
+  }
+
    async ngOnInit() {
     //****para recuperar un usaurio o el q iniciosesion */
     this.uid = await this.authService.getUid();
+
+    this.namegog = await this.authService.getname();
     console.log('usuario en perfil ontenido--->==>',this.uid)
     this.getUserInfo(this.uid);
    

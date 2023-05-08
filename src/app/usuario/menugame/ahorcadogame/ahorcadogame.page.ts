@@ -65,6 +65,7 @@ export class AhorcadogamePage  {
 	}
   uid = '';
   puntaje: PuntajeI;
+  namegog=null;
 
   constructor(
     private database:FirestoreService,
@@ -80,6 +81,7 @@ export class AhorcadogamePage  {
 		
 		//****para recuperar un usaurio o el q iniciosesion */
 		this.uid = await this.authService.getUid();
+    this.namegog = await this.authService.getname();
 		console.log('usuario en perfil ontenido--->==>', this.uid)
 		this.getUserInfo(this.uid);
 		this.Nowrecuperapuntosusuarios(this.uid)
@@ -535,7 +537,7 @@ export class AhorcadogamePage  {
 			}else{
 				console.log("No existe el usuario en  users")
 				var usuarioNE: usuarioI = {
-					nombres: null,
+					nombres: this.namegog,
 					apellido: null,
 					email: null,
 					fechaNacimiento: null,

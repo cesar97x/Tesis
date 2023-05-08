@@ -51,6 +51,7 @@ export class MathgamePage {
 	}
   uid = '';
   puntaje: PuntajeI;
+  namegog=null;
   
   constructor(public alertController: AlertController,
     private authService: AuthService,
@@ -63,6 +64,7 @@ export class MathgamePage {
 		//this.restartGame();
 		//****para recuperar un usaurio o el q iniciosesion */
 		this.uid = await this.authService.getUid();
+    this.namegog = await this.authService.getname();
 		console.log('usuario en perfil ontenido--->==>', this.uid)
 		this.getUserInfo(this.uid);
 		this.Nowrecuperapuntosusuarios(this.uid)
@@ -318,7 +320,7 @@ export class MathgamePage {
 			}else{
 				console.log("No existe el usuario en  users")
 				var usuarioNE: usuarioI = {
-					nombres: null,
+					nombres: this.namegog,
 					apellido: null,
 					email: null,
 					fechaNacimiento: null,
@@ -328,6 +330,7 @@ export class MathgamePage {
 					genero: null,
 					edad: null
 				}
+        //usuarioNE.nombres=this.namegog
 				this.database.createususuariogoogle(usuarioNE,this.uid)
 				console.log("creadooooooooooo")
 			}

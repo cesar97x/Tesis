@@ -72,6 +72,7 @@ export class FruitsgamePage implements OnInit {
 		puntajetotal: null
 	}
 
+	namegog=null;
 
 
 	constructor(
@@ -86,6 +87,7 @@ export class FruitsgamePage implements OnInit {
 		this.restartGame();
 		//****para recuperar un usaurio o el q iniciosesion */
 		this.uid = await this.authService.getUid();
+		this.namegog = await this.authService.getname();
 		console.log('usuario en perfil ontenido--->==>', this.uid)
 		this.getUserInfo(this.uid);
 		this.Nowrecuperapuntosusuarios(this.uid)
@@ -369,7 +371,7 @@ export class FruitsgamePage implements OnInit {
 			}else{
 				console.log("No existe el usuario en  users")
 				var usuarioNE: usuarioI = {
-					nombres: null,
+					nombres: this.namegog,
 					apellido: null,
 					email: null,
 					fechaNacimiento: null,
