@@ -61,6 +61,7 @@ export class SetPremiosPage implements OnInit {
       const nameim=this.newPremio.nombre;
       const res= await this.database.uploadImage(this.newFile,this.path,nameim);
       this.newPremio.imagen=res;
+      
       this.database.addDocumento(this.newPremio, this.path).then(
         res=>{
           console.log('res--->',res)
@@ -82,8 +83,11 @@ export class SetPremiosPage implements OnInit {
   }
   async editar() {
     const nameim=this.newPremio.nombre;
-    const res= await this.database.uploadImage(this.newFile,this.path,nameim);
-    this.newPremio.imagen=res;
+    const imagen = this.newPremio.imagen
+    //console.log('oimagen para editar',imagen)
+    //const res= await this.database.uploadImage(this.newFile,this.path,nameim);
+    //console.log("res---->",res)
+    //this.newPremio.imagen=res;
     this.database.updateDoc(this.newPremio, this.path, this.newPremio.id);
     this.newPremio = {
       nombre: '',
