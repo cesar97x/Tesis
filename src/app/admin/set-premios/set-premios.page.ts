@@ -97,6 +97,7 @@ export class SetPremiosPage implements OnInit {
     }
     this.actualizar = false;
     this.presentToast('guardado con exito');
+    this.enablenewpremio=false;
   }
 
   async delete(premio: PremioI) {
